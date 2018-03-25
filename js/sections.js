@@ -393,12 +393,6 @@ var scrollVis = function () {
       .duration(0)
       .attr('opacity', 0);
 
-    g.selectAll('.hist')
-      .transition()
-      .duration(600)
-      .attr('height', function () { return 0; })
-      .attr('y', function () { return height; })
-      .style('opacity', 0);
 
     g.selectAll('.bar')
       .transition()
