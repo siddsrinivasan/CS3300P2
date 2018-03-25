@@ -11,7 +11,7 @@ import numpy as np
 presidents = {"Obama":[2009,2010, 2011, 2012, 2013, 2014, 2015, 2016]}
 set_of_tags = {"NN", "NNS", "NNP", "NNPS"}
 
-folder = open("/Users/siddharth/Desktop/3300/CS3300P2/transcripts/Bush_1989.txt", "r")			# change to match your file path
+folder = open("/Users/siddharth/Desktop/3300/CS3300P2/transcripts/Trump_2017.txt", "r")			# change to match your file path
 csvReader = csv.reader(folder)
 speech_text = []
 vocab = {}
