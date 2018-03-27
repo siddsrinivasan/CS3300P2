@@ -135,16 +135,33 @@ var scrollVis = function () {
       .attr('class', 'title openvis-title')
       .attr('x', width / 2)
       .attr('y', height / 3)
-      .text('2013');
+      .text('THE STATE OF');
 
     g.append('text')
-      .attr('class', 'sub-title openvis-title')
+      .attr('class', 'state_of_the_union openvis-title')
       .attr('x', width / 2)
-      .attr('y', (height / 3) + (height / 5))
-      .text('OpenVis Conf');
+      .attr('y', height / 3 + height /8)  // spacing below text
+      .text('The State of the Union');
+
+    // currently don't have subtitle
+    // g.append('text')
+    //   .attr('class', 'sub-title openvis-title')
+    //   .attr('x', width / 2)
+    //   .attr('y', (height / 3) + 2*(height / 5))
+    //   .text('OpenVis Conf');
 
     g.selectAll('.openvis-title')
       .attr('opacity', 0);
+
+
+    //testing appending an image to the second screen
+    g.append("svg:image")
+      .attr('x', width /2)
+      .attr('y', height / 3)
+      .attr('width', 400)
+      .attr('height', 250)
+      .attr("xlink:href", "images/filler_presidents.jpg")
+      .attr("opacity", 0);
 
     // count filler word count title
     g.append('text')
@@ -267,6 +284,11 @@ var scrollVis = function () {
       .transition()
       .duration(600)
       .attr('opacity', 1.0);
+
+    g.selectAll("image")
+      .transition()
+      .duration(0)
+      .attr('opacity',0)
   }
 
   /**
@@ -292,6 +314,12 @@ var scrollVis = function () {
       .transition()
       .duration(600)
       .attr('opacity', 1.0);
+
+    // testing the image
+    g.selectAll("image")
+      .transition()
+      .duration(600)
+      .attr('opacity',1.0)
   }
 
   /**
@@ -316,6 +344,12 @@ var scrollVis = function () {
       })
       .attr('opacity', 1.0)
       .attr('fill', '#ddd');
+
+    // testing the image - making sure it disappears
+    g.selectAll("image")
+      .transition()
+      .duration(0)
+      .attr('opacity',0);
   }
 
   /**

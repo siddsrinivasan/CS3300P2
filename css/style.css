@@ -36,6 +36,12 @@
   line-height: 1.2em;
 }
 
+#section_p {
+  font-size: 13px;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: grey;
+}
+
 #extra-space {
   height: 300px;
 }
@@ -52,13 +58,23 @@
 }
 
 #vis .title {
-  font-size:120px;
+  font-size:30px;
   text-anchor: middle;
+  font-family: Tahoma, Geneva, sans-serif;
+  color: grey;
 }
 
-#vis .sub-title {
-  font-size:60px;
+#vis .state_of_the_union{
+  font-size:70px;
   text-anchor: middle;
+  font-family: Impact, Charcoal, sans-serif;
+}
+
+
+#vis .sub-title {
+  font-size:30px;
+  text-anchor: middle;
+
 }
 
 .axis path,
@@ -72,6 +88,8 @@
   fill: #008080;
   font-weight: bold;
 }*/
+
+
 
 
 
