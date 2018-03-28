@@ -16,7 +16,21 @@ text_files = {"Donald Trump":   ["Trump_2017"],
 
 set_of_tags = {"NN", "NNS", "NNP", "NNPS"}
 
-speeches_per_president = {"Donald_Trump": 1, "Barack Obama": 8, "Bill Clinton" : 8, "George W Bush": 8, "George Bush Sr.": 4}
+speeches_per_president = {"Donald Trump": 1, "Barack Obama": 8, "Bill Clinton" : 8, "George W Bush": 8, "George Bush Sr.": 4}
+
+
+###### 
+def sort_tuple_dict(vocab, minscore):
+	sort_array = []
+	for word in vocab:
+		if vocab[word] > minscore:
+			sort_array.append((word,vocab[word]))
+
+	sort_array = sorted(sort_array, key=lambda x: x[1], reverse=True)
+	return sort_array
+
+
+
 
 
 ################## functions ################################
@@ -35,14 +49,7 @@ def create_counts(set_of_tags, txt_file):
 				elif word[1] in set_of_tags:
 					vocab[word[0]] = vocab[word[0]] + 1
 	# sort it
-	sort_array = []
-	for word in vocab:
-		if vocab[word] > 1:
-			sort_array.append((word,vocab[word]))
-
-	sort_array = sorted(sort_array, key=lambda x: x[1], reverse=True)
-	return sort_array
-
+	return vocab
 
 ################## functions ################################
 
@@ -50,11 +57,35 @@ def counts_by_SOU(set_of_tags, text_files):
 	final_array = []
 	for president in text_files:
 		for file in text_files[president]:
-			final_array.append((file, create_counts(set_of_tags, file)))
+			vocab = create_counts(set_of_tags, file)
+			# sort it 
+
+			final_array.append((file,sort_tuple_dict(vocab, 1.0)))
 	print (final_array)
 
 
 ################## script ################################
+def counts_by_president(set_of_tags,text_files):
+	final_array = []
+	for president in text_files:
+		num_speeches = 1.0  * speeches_per_president[president]
+		president_vocab = {}
+		bag = set()
+		for file in text_files[president]:
+			vocab = create_counts(set_of_tags, file)
+			for word in vocab:
+				if word in bag:
+					president_vocab[word] += vocab[word]
+				else:
+					president_vocab[word] = vocab[word]
+					bag.add(word)
+		
+		# normalize scores by number of speeches given 
+		for word in president_vocab:
+			president_vocab[word] = president_vocab[word] / num_speeches
+
+		final_array.append((president, sort_tuple_dict(president_vocab, 1.0 )))
+	print (final_array)
 
 ################## functions ################################
 
@@ -62,18 +93,8 @@ def counts_by_SOU(set_of_tags, text_files):
 
 ################## script ################################
 
-
-
-
-counts_by_SOU(set_of_tags, text_files)
-
-
-
-
-
-
-
-
+#counts_by_SOU(set_of_tags, text_files)
+counts_by_president(set_of_tags,text_files)
 
 
 

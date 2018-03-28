@@ -153,9 +153,9 @@ var scrollVis = function () {
     g.selectAll('.openvis-title')
       .attr('opacity', 0);
 
-
     //testing appending an image to the second screen
     g.append("svg:image")
+      .attr('class', 'img')
       .attr('x', width /2)
       .attr('y', height / 3)
       .attr('width', 400)
@@ -168,13 +168,13 @@ var scrollVis = function () {
       .attr('class', 'title count-title highlight')
       .attr('x', width / 2)
       .attr('y', height / 3)
-      .text('180');
+      .text('The Presidents at hand');
 
     g.append('text')
       .attr('class', 'sub-title count-title')
       .attr('x', width / 2)
       .attr('y', (height / 3) + (height / 5))
-      .text('Filler Words');
+      .text('1989-2017');
 
     g.selectAll('.count-title')
       .attr('opacity', 0);
@@ -339,9 +339,6 @@ var scrollVis = function () {
     g.selectAll('.square')
       .transition()
       .duration(600)
-      .delay(function (d) {
-        return 5 * d.row;
-      })
       .attr('opacity', 1.0)
       .attr('fill', '#ddd');
 
