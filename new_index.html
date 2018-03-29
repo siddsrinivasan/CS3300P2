@@ -38,8 +38,6 @@
 		.data(artistValues)
 		.enter().append("circle")
 			.attr("id", function(d) { return d.Artist; })
-			.attr("cx", Math.random() * 500)
-			.attr("cy", Math.random() * 500)
 			.attr("r", function(d) { return d.Eighties * 2; })
 			.style("fill", "red")
 			.style("stroke", "#BB0000")
@@ -47,7 +45,7 @@
 			.style("opacity", "0.5");
 
 		d3.selectAll("circle").each(function(d, i) {
-			
+
 			d3.select(this)
 			.attr("cx", Math.random() * 500)
 			.attr("cy", Math.random() * 500);
