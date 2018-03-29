@@ -1,0 +1,70 @@
+<html>
+<head>
+<title>HTML/JS/D3 -> R</title>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+<body>
+<svg height="500" width="500" />
+<script>
+
+	var artistValues;
+
+	function mutateRow(row) {
+
+		row["Artist"] = row["Artist"];
+
+		row["Sixties"] = Number(row["Sixties"]);
+		row["Seventies"] = Number(row["Seventies"]);
+		row["Eighties"] = Number(row["Eighties"]);
+
+		return row;
+
+	}
+
+	function callback(error, data){
+
+		artistValues = data.map(function(d){
+			return {
+				Artist: d.Artist,
+				Sixties: d.Sixties,
+				Seventies: d.Seventies,
+				Eighties: d.Eighties
+			};
+		});
+
+		var svg = d3.select("svg");
+
+		svg.selectAll("dot")
+		.data(artistValues)
+		.enter().append("circle")
+			.attr("id", function(d) { return d.Artist; })
+			.attr("cx", Math.random() * 500)
+			.attr("cy", Math.random() * 500)
+			.attr("r", function(d) { return d.Eighties * 2; })
+			.style("fill", "red")
+			.style("stroke", "#BB0000")
+			.style("stroke-width", "2px")
+			.style("opacity", "0.5");
+
+		d3.selectAll("circle").each(function(d, i) {
+			
+			d3.select(this)
+			.attr("cx", Math.random() * 500)
+			.attr("cy", Math.random() * 500);
+
+		});
+
+		return null;
+	}
+
+
+
+
+
+
+	d3.csv("test.csv", mutateRow, callback);
+
+</script>
+
+</body>
+</html>
