@@ -1,5 +1,5 @@
-Artist,Sixties,Seventies,Eighties,Nineties,Two_Thousands,Twenty_Tens
-JonJon,0,4,1,0,2,1
-Mick Daddy,3,2,0,3,4,3
-Snack Attack,2,1,8,1,2,0
-Rockjock,0,1,0,3,3,0
+Artist,Sixties,Seventies,Eighties,Nineties,Two_Thousands,Twenty_Tens,Genre
+JonJon,0,4,1,0,2,1,Rap
+Mick Daddy,3,2,0,3,4,3,Jazz
+Snack Attack,2,1,8,1,2,0,Rock
+Rockjock,0,1,0,3,3,0,Rock

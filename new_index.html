@@ -57,6 +57,8 @@
 		row["Two_Thousands"] = Number(row["Two_Thousands"]);
 		row["Twenty_Tens"] = Number(row["Twenty_Tens"]);
 
+		row["Genre"] = row["Genre"];
+
 		console.log(row);
 
 		return row;
@@ -73,7 +75,8 @@
 				Eighties: d.Eighties,
 				Nineties: d.Nineties,
 				Two_Thousands: d.Two_Thousands,
-				Twenty_Tens: d.Twenty_Tens
+				Twenty_Tens: d.Twenty_Tens,
+				Genre: d.Genre
 			};
 		});
 
@@ -109,8 +112,20 @@
 					return 0;
 				}
 			 })
-			.style("fill", "red")
-			.style("stroke", "#BB0000")
+			.style("fill", function(d){
+
+				if(d.Genre == "Rock"){
+					return "#BB0000";
+				} else if (d.Genre == "Jazz"){
+					return "#00BB00";
+				} else if (d.Genre == "Rap"){
+					return "#BB00BB";
+				} else {
+					return "#999999";
+				}
+
+			})
+			.style("stroke", "000000")
 			.style("stroke-width", "2px")
 			.style("opacity", "0.5");
 
@@ -129,7 +144,7 @@
 
 
 
-	d3.csv("test.csv", mutateRow, callback);
+	d3.csv("data/billboard.csv", mutateRow, callback);
 
 </script>
 
