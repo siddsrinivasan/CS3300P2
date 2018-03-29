@@ -13,8 +13,8 @@
 <div id="container">
 
 	<select name="decades" id="decades" value="Sixties"
-	oninput="showCircles(this.value, 0)"
-	onchange="showCircles(this.value, 0)">
+	oninput="showCircles(this.value, genres.value)"
+	onchange="showCircles(this.value, genres.value)">
     	<option value="Sixties">1960s</option>
     	<option value="Seventies">1970s</option>
     	<option value="Eighties">1980s</option>
@@ -23,9 +23,10 @@
     	<option value="Twenty_Tens">2010s</option>
   	</select>
 
-  	<select name="genres" id="genres" value="Rap"
-  	oninput="showCircles(decades.value, 0)"
-  	onchange="showCircles(decades.value, 0)">
+  	<select name="genres" id="genres" value="All"
+  	oninput="showCircles(decades.value, this.value)"
+  	onchange="showCircles(decades.value, this.value)">
+  		<option value="All">All</option>
     	<option value="Rap">Rap</option>
     	<option value="Rock">Rock</option>
     	<option value="Jazz">Jazz</option>
@@ -41,14 +42,14 @@
 
 	var artistValues;
 
+	var radiusSize = 5;
+
 	var decade = document.getElementById("decades").value;
-	var genre = 0;
+	var genre = document.getElementById("genres").value;
 
 	function mutateRow(row) {
 
 		row["Artist"] = row["Artist"];
-
-		console.log(row["Nineties"]);
 
 		row["Sixties"] = Number(row["Sixties"]);
 		row["Seventies"] = Number(row["Seventies"]);
@@ -91,26 +92,36 @@
 
 		var svg = d3.select("svg");
 
+		console.log(genre);
+
 		svg.selectAll("dot")
 		.data(artistValues)
 		.enter().append("circle")
 			.attr("id", function(d) { return d.Artist; })
-			.attr("r", function(d) { 
+			.attr("r", function(d) {
+
+				if(genre != "All"){
+					if(genre != d.Genre){
+						return 0;
+					}
+				}
+
 				if(decade=="Sixties") {
-					return d.Sixties * 2;
+					return d.Sixties * radiusSize;
 				} else if (decade=="Seventies"){
-					return d.Seventies * 2;
+					return d.Seventies * radiusSize;
 				} else if (decade=="Eighties"){
-					return d.Eighties * 2;
+					return d.Eighties * radiusSize;
 				} else if (decade=="Nineties"){
-					return d.Nineties * 2;
+					return d.Nineties * radiusSize;
 				} else if (decade=="Two_Thousands"){
-					return d.Two_Thousands * 2;
+					return d.Two_Thousands * radiusSize;
 				} else if (decade=="Twenty_Tens"){
-					return d.Twenty_Tens * 2;
+					return d.Twenty_Tens * radiusSize;
 				} else {
 					return 0;
 				}
+
 			 })
 			.style("fill", function(d){
 
@@ -138,11 +149,6 @@
 		});
 
 	}
-
-
-
-
-
 
 	d3.csv("data/billboard.csv", mutateRow, callback);
 
