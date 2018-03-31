@@ -51,6 +51,24 @@ for row in data:
 		# add neww song to songs string.
 		artists_data[artist][array_locations["songs"]] = artists_data[artist][array_locations["songs"]] + ", " + row[1]
 
+
+
+#Grab Gender
+gender_data = []
+with open("singers_gender.csv", 'r', encoding='latin1') as f:
+		reader = csv.reader(f)
+		for row in reader:
+				gender_data.append(row)
+
+
+for solo_artist in gender_data:
+	singer = solo_artist[0].lower()
+	if singer in artists_data:
+		artists_data[singer].append(solo_artist[1])
+		artists_data[singer].append(solo_artist[2])
+
+
+
 #format data for csv
 final_array = []
 for artist in artists_data:
