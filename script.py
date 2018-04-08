@@ -1,6 +1,13 @@
 import csv
 
 
+def remove_feature(artist):
+	index = artist.find("feat")
+	artist_trim = artist
+	if index > -1:
+		artist_trim = artist[:index-1]
+	return artist_trim
+
 def det_decade(year):
 	year = int(year)
 	if year < 1970:
@@ -38,6 +45,9 @@ artists_data = {}
 data = data[1:]
 for row in data:
 	artist = row[2]
+	# trim off the feature from the artist.
+	artist = remove_feature(artist)
+
 	if artist not in artists_data:
 		# create data array of the appropriate length
 		dp = [0] *7 
@@ -50,7 +60,6 @@ for row in data:
 		artists_data[artist][array_locations[scaled_yr]] += 1
 		# add neww song to songs string.
 		artists_data[artist][array_locations["songs"]] = artists_data[artist][array_locations["songs"]] + ", " + row[1]
-
 
 
 #Grab Gender
@@ -68,7 +77,6 @@ for solo_artist in gender_data:
 		artists_data[singer].append(solo_artist[2])
 
 
-
 #format data for csv
 final_array = []
 for artist in artists_data:
@@ -79,7 +87,7 @@ for artist in artists_data:
 
 
 
-write_to_csv(final_array, "artist_song_counts.csv")
+write_to_csv(final_array, "artist_song_counts1.csv")
 
 
 
