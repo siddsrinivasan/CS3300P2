@@ -6,6 +6,46 @@
 </head>
 <body>
 
+<!-- Tooltip stuff -->
+
+<style>
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+ 
+</style>
+
+<!-- End Tool Tip stuff -->
+
+
+<script>
+
+
+</script>
+
+
+
+
+
+
 
 <div id="container">
 
@@ -30,30 +70,22 @@
 
 
 <script>
-
 	var artistValues;
-
 	var radiusSize = 5;
-
 	var decade = document.getElementById("decades").value;
 
 	function mutateRow(row) {
 
 		row["Artist"] = row["Artist"];
-
 		row["Sixties"] = Number(row["Sixties"]);
 		row["Seventies"] = Number(row["Seventies"]);
 		row["Eighties"] = Number(row["Eighties"]);
 		row["Nineties"] = Number(row["Nineties"]);
 		row["Two_Thousands"] = Number(row["Two_Thousands"]);
 		row["Twenty_Tens"] = Number(row["Twenty_Tens"]);
-
 		row["Gender"] = row["Gender"];
 
-		console.log(row);
-
 		return row;
-
 	}
 
 	function callback(error, data){
@@ -70,10 +102,10 @@
 				Gender: d.Gender
 			};
 		});
-
-
 		showCircles(decade);
 	}
+
+
 
 
 	function showCircles(decade){
@@ -81,29 +113,16 @@
 		d3.selectAll("circle").remove();
 		d3.selectAll("text").remove();
 
-		var svg = d3.select("svg");
+		var enc_decades = {"Sixties": "1960s", "Seventies": "1970s", "Eighties": "1980s", "Nineties":"1990s", "Two_Thousands": "2000s", "Twenty_Tens":"2010s"};
 
+		var svg = d3.select("svg");
 		svg.append("text")
 		.attr("x", 10)
 		.attr("y", 30)
 		.style("font-size", 26)
 		.style("fill", "#BBBBBB")
 		.text(function(d){
-			if(decade=="Sixties") {
-				return "1960s";
-			} else if (decade=="Seventies"){
-				return "1970s";
-			} else if (decade=="Eighties"){
-				return "1980s";
-			} else if (decade=="Nineties"){
-				return "1990s";
-			} else if (decade=="Two_Thousands"){
-				return "2000s";
-			} else if (decade=="Twenty_Tens"){
-				return "2010s";
-			} else {
-				return "";
-			}
+			return enc_decades[decade];
 		})
 
 		svg.selectAll("dot")
@@ -144,18 +163,20 @@
 			.style("opacity", "0.5");
 
 		d3.selectAll("circle").each(function(d, i) {
-
 			d3.select(this)
 			.attr("cx", Math.random() * 960)
 			.attr("cy", Math.random() * 600);
-
 		});
 
 	}
 
+
 	d3.csv("artist_song_counts1.csv", mutateRow, callback);
 
 </script>
+
+
+
 
 
 </body>
