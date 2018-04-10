@@ -2,37 +2,28 @@
 <head>
 <title>Artist Clusters</title>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<link rel = "stylesheet" type = "text/css" href = "styles/style.css" />
 </head>
 <body>
 
 
-<svg height="500" width="500" />
-
-<br><br><br>
-
 <div id="container">
 
+	<h1>One-Hit Wonders</h1>
+
+	<svg height="500" width="960" />
+
+	<br><br><br>
+
 	<select name="decades" id="decades" value="Sixties"
-	oninput="showCircles(this.value, genres.value)"
-	onchange="showCircles(this.value, genres.value)">
+	oninput="showCircles(this.value)"
+	onchange="showCircles(this.value)">
     	<option value="Sixties">1960s</option>
     	<option value="Seventies">1970s</option>
     	<option value="Eighties">1980s</option>
     	<option value="Nineties">1990s</option>
     	<option value="Two_Thousands">2000s</option>
     	<option value="Twenty_Tens">2010s</option>
-  	</select>
-
-  	<select name="genres" id="genres" value="All"
-  	oninput="showCircles(decades.value, this.value)"
-  	onchange="showCircles(decades.value, this.value)">
-  		<option value="All">All</option>
-    	<option value="Rap">Rap</option>
-    	<option value="Rock">Rock</option>
-    	<option value="Jazz">Jazz</option>
-    	<option value="Country">Country</option>
-    	<option value="Pop">Pop</option>
-    	<option value="Techno">Techno</option>
   	</select>
 
 </div>
@@ -45,7 +36,6 @@
 	var radiusSize = 5;
 
 	var decade = document.getElementById("decades").value;
-	var genre = document.getElementById("genres").value;
 
 	function mutateRow(row) {
 
@@ -58,7 +48,7 @@
 		row["Two_Thousands"] = Number(row["Two_Thousands"]);
 		row["Twenty_Tens"] = Number(row["Twenty_Tens"]);
 
-		row["Genre"] = row["Genre"];
+		row["Gender"] = row["Gender"];
 
 		console.log(row);
 
@@ -77,34 +67,51 @@
 				Nineties: d.Nineties,
 				Two_Thousands: d.Two_Thousands,
 				Twenty_Tens: d.Twenty_Tens,
-				Genre: d.Genre
+				Gender: d.Gender
 			};
 		});
 
 
-		showCircles(decade, genre);
+		showCircles(decade);
 	}
 
 
-	function showCircles(decade, genre){
+	function showCircles(decade){
 
 		d3.selectAll("circle").remove();
+		d3.selectAll("text").remove();
 
 		var svg = d3.select("svg");
 
-		console.log(genre);
+		svg.append("text")
+		.attr("x", 10)
+		.attr("y", 30)
+		.style("font-size", 26)
+		.style("fill", "#BBBBBB")
+		.text(function(d){
+			if(decade=="Sixties") {
+				return "1960s";
+			} else if (decade=="Seventies"){
+				return "1970s";
+			} else if (decade=="Eighties"){
+				return "1980s";
+			} else if (decade=="Nineties"){
+				return "1990s";
+			} else if (decade=="Two_Thousands"){
+				return "2000s";
+			} else if (decade=="Twenty_Tens"){
+				return "2010s";
+			} else {
+				return "";
+			}
+		})
 
 		svg.selectAll("dot")
 		.data(artistValues)
 		.enter().append("circle")
 			.attr("id", function(d) { return d.Artist; })
+			.attr("class", "artistCircle")
 			.attr("r", function(d) {
-
-				if(genre != "All"){
-					if(genre != d.Genre){
-						return 0;
-					}
-				}
 
 				if(decade=="Sixties") {
 					return d.Sixties * radiusSize;
@@ -125,32 +132,28 @@
 			 })
 			.style("fill", function(d){
 
-				if(d.Genre == "Rock"){
-					return "#BB0000";
-				} else if (d.Genre == "Jazz"){
-					return "#00BB00";
-				} else if (d.Genre == "Rap"){
-					return "#BB00BB";
+				if(d.Gender == "male"){
+					return "#399FF9";
+				} else if (d.Gender == "female"){
+					return "#F955F2";
 				} else {
-					return "#999999";
+					return "#AFAFAF";
 				}
 
 			})
-			.style("stroke", "000000")
-			.style("stroke-width", "2px")
 			.style("opacity", "0.5");
 
 		d3.selectAll("circle").each(function(d, i) {
 
 			d3.select(this)
-			.attr("cx", Math.random() * 500)
+			.attr("cx", Math.random() * 960)
 			.attr("cy", Math.random() * 500);
 
 		});
 
 	}
 
-	d3.csv("data/billboard.csv", mutateRow, callback);
+	d3.csv("artist_song_counts1.csv", mutateRow, callback);
 
 </script>
 
