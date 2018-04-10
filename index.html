@@ -3,47 +3,29 @@
 <title>Artist Clusters</title>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <link rel = "stylesheet" type = "text/css" href = "styles/style.css" />
+<link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
 </head>
 <body>
 
 <!-- Tooltip stuff -->
 
 <style>
-.d3-tip {
-  line-height: 1;
-  font-weight: bold;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 60px;					
+    height: 28px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: red;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
 }
  
 </style>
 
 <!-- End Tool Tip stuff -->
-
-
-<script>
-
-
-</script>
-
-
-
-
 
 
 
@@ -55,6 +37,7 @@
 
 	<br><br><br>
 
+	<!-- This is the menu bar at the bottom -->
 	<select name="decades" id="decades" value="Sixties"
 	oninput="showCircles(this.value)"
 	onchange="showCircles(this.value)">
@@ -73,6 +56,15 @@
 	var artistValues;
 	var radiusSize = 5;
 	var decade = document.getElementById("decades").value;
+
+ 
+ 	// there is only one tip i think 
+ 	// http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+ 	// and you just update its location and contents each time
+	var tip = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+
 
 	function mutateRow(row) {
 
@@ -160,12 +152,27 @@
 				}
 
 			})
-			.style("opacity", "0.5");
+			.style("opacity", "0.5")
+			.on("mouseover", function(d) {		
+	            tip.transition()		
+	                .duration(200)		
+	                .style("opacity", .9);
+	            // position the tool tip in the right location
+	            tip.html(d)  
+  					.style("left", d3.select(this).attr("cx") + "px")     
+  					.style("top", d3.select(this).attr("cy") + "px");		
+	            })					
+	        .on("mouseout", function(d) {		
+	            tip.transition()		
+	                .duration(500)		
+	                .style("opacity", 0);	
+        	});
+
 
 		d3.selectAll("circle").each(function(d, i) {
 			d3.select(this)
 			.attr("cx", Math.random() * 960)
-			.attr("cy", Math.random() * 600);
+			.attr("cy", Math.random() * 600)
 		});
 
 	}
