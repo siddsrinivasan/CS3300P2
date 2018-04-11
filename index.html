@@ -6,8 +6,30 @@
 
 
 <link rel = "stylesheet" type = "text/css" href = "styles/style.css" />
+<link rel="stylesheet" href="//rawgithub.com/Caged/d3-tip/master/examples/example-styles.css">
 </head>
 <body>
+
+<!-- Tooltip stuff -->
+
+<style>
+div.tooltip {	
+    position: absolute;			
+    text-align: center;			
+    width: 60px;					
+    height: 28px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: red;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}
+ 
+</style>
+
+<!-- End Tool Tip stuff -->
+
 
 
 <div id="container">
@@ -18,6 +40,7 @@
 
 	<br><br><br>
 
+	<!-- This is the menu bar at the bottom -->
 	<select name="decades" id="decades" value="Sixties"
 	oninput="showCircles(this.value)"
 	onchange="showCircles(this.value)">
@@ -33,30 +56,31 @@
 
 
 <script>
-
 	var artistValues;
-
 	var radiusSize = 5;
-
 	var decade = document.getElementById("decades").value;
+
+ 
+ 	// there is only one tip i think 
+ 	// http://bl.ocks.org/d3noob/a22c42db65eb00d4e369
+ 	// and you just update its location and contents each time
+	var tip = d3.select("body").append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", 0);
+
 
 	function mutateRow(row) {
 
 		row["Artist"] = row["Artist"];
-
 		row["Sixties"] = Number(row["Sixties"]);
 		row["Seventies"] = Number(row["Seventies"]);
 		row["Eighties"] = Number(row["Eighties"]);
 		row["Nineties"] = Number(row["Nineties"]);
 		row["Two_Thousands"] = Number(row["Two_Thousands"]);
 		row["Twenty_Tens"] = Number(row["Twenty_Tens"]);
-
 		row["Gender"] = row["Gender"];
 
-		console.log(row);
-
 		return row;
-
 	}
 
 	function callback(error, data){
@@ -73,10 +97,10 @@
 				Gender: d.Gender
 			};
 		});
-
-
 		showCircles(decade);
 	}
+
+
 
 
 	function showCircles(decade){
@@ -84,29 +108,16 @@
 		d3.selectAll("circle").remove();
 		d3.selectAll("text").remove();
 
-		var svg = d3.select("svg");
+		var enc_decades = {"Sixties": "1960s", "Seventies": "1970s", "Eighties": "1980s", "Nineties":"1990s", "Two_Thousands": "2000s", "Twenty_Tens":"2010s"};
 
+		var svg = d3.select("svg");
 		svg.append("text")
 		.attr("x", 10)
 		.attr("y", 30)
 		.style("font-size", 26)
 		.style("fill", "#BBBBBB")
 		.text(function(d){
-			if(decade=="Sixties") {
-				return "1960s";
-			} else if (decade=="Seventies"){
-				return "1970s";
-			} else if (decade=="Eighties"){
-				return "1980s";
-			} else if (decade=="Nineties"){
-				return "1990s";
-			} else if (decade=="Two_Thousands"){
-				return "2000s";
-			} else if (decade=="Twenty_Tens"){
-				return "2010s";
-			} else {
-				return "";
-			}
+			return enc_decades[decade];
 		})
 
 		svg.selectAll("dot")
@@ -116,23 +127,10 @@
 			.attr("class", "artistCircle")
 			.attr("r", function(d) {
 
-				if(decade=="Sixties" && d.Sixties > 0) {
-					return d.Sixties * radiusSize + 3;
-				} else if (decade=="Seventies" && d.Seventies > 0){
-					return d.Seventies * radiusSize + 3;
-				} else if (decade=="Eighties" && d.Eighties > 0){
-					return d.Eighties * radiusSize + 3;
-				} else if (decade=="Nineties" && d.Nineties > 0){
-					return d.Nineties * radiusSize + 3;
-				} else if (decade=="Two_Thousands" && d.Two_Thousands > 0){
-					return d.Two_Thousands * radiusSize + 3;
-				} else if (decade=="Twenty_Tens" && d.Twenty_Tens > 0){
-					return d.Twenty_Tens * radiusSize + 3;
-				} else {
-					return 0;
-				}
-
+				if (d[decade] >0){ return d[decade] * radiusSize + 3; }
+				else{ return 0; }
 			 })
+
 			.style("fill", function(d){
 
 				if(d.Gender == "male"){
@@ -144,14 +142,27 @@
 				}
 
 			})
-			.style("opacity", "0.5");
+			.style("opacity", "0.5")
+			.on("mouseover", function(d) {		
+	            tip.transition()		
+	                .duration(200)		
+	                .style("opacity", .9);
+	            // position the tool tip in the right location
+	            tip.html(d)  
+  					.style("left", d3.select(this).attr("cx") + "px")     
+  					.style("top", d3.select(this).attr("cy") + "px");		
+	            })					
+	        .on("mouseout", function(d) {		
+	            tip.transition()		
+	                .duration(500)		
+	                .style("opacity", 0);	
+        	});
+
 
 		d3.selectAll("circle").each(function(d, i) {
-
 			d3.select(this)
 			.attr("cx", Math.random() * 960)
-			.attr("cy", Math.random() * 600);
-
+			.attr("cy", Math.random() * 600)
 		});
 
 	}
@@ -159,7 +170,6 @@
 	d3.csv("artist_song_counts1.csv", mutateRow, callback);
 
 </script>
-
 
 </body>
 </html>
