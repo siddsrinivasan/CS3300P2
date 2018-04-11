@@ -195,6 +195,7 @@
 			console.log(nodes);
 
 			// Create circles for nodes.
+<<<<<<< HEAD
 			// radius is num of hits in decade
 			// color is gender
 			// purple is multiple/band/unknown
@@ -204,6 +205,12 @@
 
 			var circles = svg.selectAll("circle").data(artistValues).enter().filter(function (d) {return d[decade] > 0; }).append("circle")
 			.attr("r", function (d) { return rScale(d[decade]*2); })
+=======
+			////////////////////////// NEED TO FIX RADIUSES AND COLORS BASED ON GENDERRR
+			var circles = svg.selectAll("circle").data(nodes).enter().append("circle")
+			.attr("r", function (d) { return rScale(d.b); })
+			.attr("class", "artistCircle")
+>>>>>>> 6189b5d1adff0b4d929479b0796b3de1cb315d73
 			//.style("fill", function (d) { return fillScale(d.a); })
 			.style("fill", function(d){
 
