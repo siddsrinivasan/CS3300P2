@@ -124,23 +124,10 @@ div.tooltip {
 			.attr("class", "artistCircle")
 			.attr("r", function(d) {
 
-				if(decade=="Sixties" && d.Sixties > 0) {
-					return d.Sixties * radiusSize + 3;
-				} else if (decade=="Seventies" && d.Seventies > 0){
-					return d.Seventies * radiusSize + 3;
-				} else if (decade=="Eighties" && d.Eighties > 0){
-					return d.Eighties * radiusSize + 3;
-				} else if (decade=="Nineties" && d.Nineties > 0){
-					return d.Nineties * radiusSize + 3;
-				} else if (decade=="Two_Thousands" && d.Two_Thousands > 0){
-					return d.Two_Thousands * radiusSize + 3;
-				} else if (decade=="Twenty_Tens" && d.Twenty_Tens > 0){
-					return d.Twenty_Tens * radiusSize + 3;
-				} else {
-					return 0;
-				}
-
+				if (d[decade] >0){ return d[decade] * radiusSize + 3; }
+				else{ return 0; }
 			 })
+
 			.style("fill", function(d){
 
 				if(d.Gender == "male"){
@@ -177,14 +164,9 @@ div.tooltip {
 
 	}
 
-
 	d3.csv("artist_song_counts1.csv", mutateRow, callback);
 
 </script>
-
-
-
-
 
 </body>
 </html>
