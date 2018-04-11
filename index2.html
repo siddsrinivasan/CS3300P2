@@ -200,6 +200,7 @@
 			////////////////////////// NEED TO FIX RADIUSES AND COLORS BASED ON GENDERRR
 			var circles = svg.selectAll("circle").data(nodes).enter().append("circle")
 			.attr("r", function (d) { return rScale(d.b); })
+			.attr("class", "artistCircle")
 			//.style("fill", function (d) { return fillScale(d.a); })
 			.style("fill", function(d){
 
