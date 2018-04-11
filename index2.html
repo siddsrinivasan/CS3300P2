@@ -14,7 +14,7 @@
 
 	<h1>One-Hit Wonders</h1>
 
-	<svg/>
+	<svg></svg>
 
 	<br><br><br>
 
@@ -100,7 +100,7 @@
 			};
 		});
 
-
+		console.log(artistValues);
 		showCircles(decade);
 	}
 
@@ -110,12 +110,11 @@
 		d3.selectAll("circle").remove();
 		d3.selectAll("text").remove();
 
-
 		var height = 500;
-		var width = 500;
-		var padding = 20;
+		var width = 900;
+		var padding = 10;
 
-		var extent = 20
+		var extent = 50
 
 		var xScale = d3.scaleLinear().domain([-extent, extent]).range([0, width]);
 		var yScale = d3.scaleLinear().domain([-extent, extent]).range([height, 0]);
@@ -144,10 +143,7 @@
 
 
 
-		// make nodes ur artists
-		// id = artist name??? or need to be a num??
-		// a = ??
-		// b = ?? do i need to change a or b?
+		// not using this nodes array
 		var nodes = [];
 		var numstop;
 
@@ -188,18 +184,26 @@
 		var simulation = d3.forceSimulation();
 
 		simulation
-			.force("x", d3.forceX(d => xScale(d.a)).strength(.5))
-			.force("y", d3.forceY(yScale(0)))
-			.force("collision", d3.forceCollide(d=> rScale(d.b)));
+			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
+			.force("y", d3.forceY(yScale(.3)))
+			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
+			.force("center", d3.forceCenter(400,250));
 
 		simulation
-			.nodes(nodes)
+			.nodes(artistValues)
 			.on("tick", updateDisplay);
+			console.log(nodes);
 
 			// Create circles for nodes.
-			////////////////////////// NEED TO FIX RADIUSES AND COLORS BASED ON GENDERRR
-			var circles = svg.selectAll("circle").data(nodes).enter().append("circle")
-			.attr("r", function (d) { return rScale(d.b); })
+			// radius is num of hits in decade
+			// color is gender
+			// purple is multiple/band/unknown
+			// pink is female
+			// blue male 
+
+
+			var circles = svg.selectAll("circle").data(artistValues).enter().filter(function (d) {return d[decade] > 0; }).append("circle")
+			.attr("r", function (d) { return rScale(d[decade]*2); })
 			//.style("fill", function (d) { return fillScale(d.a); })
 			.style("fill", function(d){
 
@@ -208,10 +212,10 @@
 				return "#399FF9";
 				//return fillScale("#399FF9");
 			} else if (d.Gender == "female"){
-				return "#F955F2";
+				return "#FFC0CB";
 				//return fillScale("#F955F2");
 			} else {
-				return "#AFAFAF";
+				return "#800080";
 			}
 
 		})
@@ -222,6 +226,7 @@
 
 			function updateDisplay() {
 			  circles
+			  //.data(nodes)
 			  .attr("cx", function(d) { return d.x; })
 			  .attr("cy", function(d) { return d.y; });
 			}
