@@ -1,0 +1,306 @@
+<html>
+<head>
+<title>Artist Clusters</title>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+
+<link rel = "stylesheet" type = "text/css" href = "styles/style.css" />
+</head>
+<body>
+
+
+<div id="container">
+
+	<h1>One-Hit Wonders</h1>
+
+	<svg/>
+
+	<br><br><br>
+
+	<select name="decades" id="decades" value="Sixties"
+	oninput="showCircles(this.value)"
+	onchange="showCircles(this.value)">
+    	<option value="Sixties">1960s</option>
+    	<option value="Seventies">1970s</option>
+    	<option value="Eighties">1980s</option>
+    	<option value="Nineties">1990s</option>
+    	<option value="Two_Thousands">2000s</option>
+    	<option value="Twenty_Tens">2010s</option>
+  	</select>
+
+</div>
+
+
+<script>
+
+	var artistValues;
+
+	var radiusSize = 5;
+
+	var decade = document.getElementById("decades").value;
+
+	var numsixties = 0;
+	var numseventies = 0;
+	var numeighties = 0;
+	var numnineties = 0; 
+	var numtwotousands = 0;
+	var numtwentytens = 0;
+
+	function mutateRow(row) {
+
+		row["Artist"] = row["Artist"];
+
+		row["Sixties"] = Number(row["Sixties"]);
+		if (row["Sixties"] > 0){
+			numsixties++;
+		}
+		row["Seventies"] = Number(row["Seventies"]);
+		if (row["Seventies"] > 0){
+			numseventies++;
+		}
+		row["Eighties"] = Number(row["Eighties"]);
+		if (row["Eighties"] > 0){
+			numeighties++;
+		}
+		row["Nineties"] = Number(row["Nineties"]);
+		if (row["Nineties"] > 0){
+			numnineties++;
+		}
+		row["Two_Thousands"] = Number(row["Two_Thousands"]);
+		if (row["Two_Thousands"] > 0){
+			numtwotousands++;
+		}
+		row["Twenty_Tens"] = Number(row["Twenty_Tens"]);
+		if (row["Twenty_Tens"] > 0){
+			numtwentytens++;
+		}
+
+		row["Gender"] = row["Gender"];
+
+		//console.log(numsixties);
+
+		return row;
+
+	}
+
+	function callback(error, data){
+		//console.log(numtwentytens);
+
+		artistValues = data.map(function(d){
+			return {
+				Artist: d.Artist,
+				Sixties: d.Sixties,
+				Seventies: d.Seventies,
+				Eighties: d.Eighties,
+				Nineties: d.Nineties,
+				Two_Thousands: d.Two_Thousands,
+				Twenty_Tens: d.Twenty_Tens,
+				Gender: d.Gender
+			};
+		});
+
+
+		showCircles(decade);
+	}
+
+
+	function showCircles(decade){
+
+		d3.selectAll("circle").remove();
+		d3.selectAll("text").remove();
+
+
+		var height = 500;
+		var width = 500;
+		var padding = 20;
+
+		var extent = 20
+
+		var xScale = d3.scaleLinear().domain([-extent, extent]).range([0, width]);
+		var yScale = d3.scaleLinear().domain([-extent, extent]).range([height, 0]);
+		var rScale = d3.scaleSqrt().domain([0, 10]).range([0, 15]);
+		var fillScale = d3.scaleLinear().domain([-extent, 0, extent]).range(['#fc8d59','#ffffbf','#91bfdb'])
+
+		var gaussian = d3.randomNormal();
+		var logNormal = function () { return Math.exp(gaussian() + 1.0); }
+
+		var lazyGaussian = function (list) {
+		  // Sample MORE than the current length of the list
+		  var j = Math.floor( Math.random() * (list.length + 1) ); 
+		  if (list.length == 0 || j >= list.length) {
+		    // If we picked the last index, sample a new value
+		    return gaussian();
+		  }
+		  else {
+		    // Otherwise copy the previous existing value
+		    return list[j].a;
+		  }
+		}
+
+
+		var svg = d3.select("svg").attr("height", height).attr("width", width);
+
+
+
+
+		// make nodes ur artists
+		// id = artist name??? or need to be a num??
+		// a = ??
+		// b = ?? do i need to change a or b?
+		var nodes = [];
+		var numstop;
+
+		if(decade == "Sixties"){
+			numstop = numsixties;
+		}
+		if(decade=="Seventies"){
+			numstop = numseventies;
+		}
+		if (decade=="Eighties"){
+			numstop = numeighties;
+		}
+		if (decade=="Nineties"){
+			numstop = numnineties;
+		}
+		if (decade == "Two_Thousands"){
+			numstop = numtwotousands;
+		}
+		if (decade=="Twenty_Tens"){
+			numstop =numtwentytens;
+		}
+
+
+		for (var i = 0; i < numstop; i++) {
+		  nodes.push({
+		    "id": i,
+		    //"name": artistValues.Artist,
+		    "a": gaussian(),
+		    //"a": laxzyGaussian(nodes),
+		    "b": logNormal()
+		    //console.log(a);
+		  });
+		}
+
+		//console.log(nodes);
+
+
+		var simulation = d3.forceSimulation();
+
+		simulation
+			.force("x", d3.forceX(d => xScale(d.a)).strength(.5))
+			.force("y", d3.forceY(yScale(0)))
+			.force("collision", d3.forceCollide(d=> rScale(d.b)));
+
+		simulation
+			.nodes(nodes)
+			.on("tick", updateDisplay);
+
+			// Create circles for nodes.
+			////////////////////////// NEED TO FIX RADIUSES AND COLORS BASED ON GENDERRR
+			var circles = svg.selectAll("circle").data(nodes).enter().append("circle")
+			.attr("r", function (d) { return rScale(d.b); })
+			//.style("fill", function (d) { return fillScale(d.a); })
+			.style("fill", function(d){
+
+			if(d.Gender == "male"){
+				console.log(d.Gender)
+				return "#399FF9";
+				//return fillScale("#399FF9");
+			} else if (d.Gender == "female"){
+				return "#F955F2";
+				//return fillScale("#F955F2");
+			} else {
+				return "#AFAFAF";
+			}
+
+		})
+			.style("opacity", 0.95);
+
+			//Move the circles to their locations.
+			updateDisplay();
+
+			function updateDisplay() {
+			  circles
+			  .attr("cx", function(d) { return d.x; })
+			  .attr("cy", function(d) { return d.y; });
+			}
+
+
+		// svg.append("text")
+		// .attr("x", 10)
+		// .attr("y", 30)
+		// .style("font-size", 26)
+		// .style("fill", "#BBBBBB")
+		// .text(function(d){
+		// 	if(decade=="Sixties") {
+		// 		return "1960s";
+		// 	} else if (decade=="Seventies"){
+		// 		return "1970s";
+		// 	} else if (decade=="Eighties"){
+		// 		return "1980s";
+		// 	} else if (decade=="Nineties"){
+		// 		return "1990s";
+		// 	} else if (decade=="Two_Thousands"){
+		// 		return "2000s";
+		// 	} else if (decade=="Twenty_Tens"){
+		// 		return "2010s";
+		// 	} else {
+		// 		return "";
+		// 	}
+		// })
+
+		// svg.selectAll("dot")
+		// .data(artistValues)
+		// .enter().append("circle")
+		// 	.attr("id", function(d) { return d.Artist; })
+		// 	.attr("class", "artistCircle")
+		// 	.attr("r", function(d) {
+
+		// 		if(decade=="Sixties" && d.Sixties > 0) {
+		// 			return d.Sixties * radiusSize + 3;
+		// 		} else if (decade=="Seventies" && d.Seventies > 0){
+		// 			return d.Seventies * radiusSize + 3;
+		// 		} else if (decade=="Eighties" && d.Eighties > 0){
+		// 			return d.Eighties * radiusSize + 3;
+		// 		} else if (decade=="Nineties" && d.Nineties > 0){
+		// 			return d.Nineties * radiusSize + 3;
+		// 		} else if (decade=="Two_Thousands" && d.Two_Thousands > 0){
+		// 			return d.Two_Thousands * radiusSize + 3;
+		// 		} else if (decade=="Twenty_Tens" && d.Twenty_Tens > 0){
+		// 			return d.Twenty_Tens * radiusSize + 3;
+		// 		} else {
+		// 			return 0;
+		// 		}
+
+		// 	 })
+		// 	.style("fill", function(d){
+
+		// 		if(d.Gender == "male"){
+		// 			return "#399FF9";
+		// 		} else if (d.Gender == "female"){
+		// 			return "#F955F2";
+		// 		} else {
+		// 			return "#AFAFAF";
+		// 		}
+
+		// 	})
+		// 	.style("opacity", "0.5");
+
+		// d3.selectAll("circle").each(function(d, i) {
+
+		// 	d3.select(this)
+		// 	.attr("cx", Math.random() * 960)
+		// 	.attr("cy", Math.random() * 600);
+
+		// });
+
+	}
+
+	d3.csv("artist_song_counts1.csv", mutateRow, callback);
+
+</script>
+
+
+</body>
+</html>
