@@ -14,10 +14,18 @@
 
 	<h1>One-Hit Wonders</h1>
 
-	<svg></svg>
+	<div id="buttonbar">
+		<button class="decadeButton" type="button" onclick='showCircles("Sixties")''>1960s</button>
+		<button class="decadeButton" type="button" onclick='showCircles("Seventies")''>1970s</button>
+		<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button>
+		<button class="decadeButton" type="button" onclick='showCircles("Nineties")''>1990s</button>
+		<button class="decadeButton" type="button" onclick='showCircles("Two_Thousands")''>2000s</button>
+		<button class="decadeButton" type="button" onclick='showCircles("Twenty_Tens")''>2010s</button>
+	</div>
 
-	<br><br><br>
+	<svg height="600" width="960"></svg>
 
+	<!-- 
 	<select name="decades" id="decades" value="Sixties"
 	oninput="showCircles(this.value)"
 	onchange="showCircles(this.value)">
@@ -27,7 +35,7 @@
     	<option value="Nineties">1990s</option>
     	<option value="Two_Thousands">2000s</option>
     	<option value="Twenty_Tens">2010s</option>
-  	</select>
+  	</select> -->
 
 </div>
 
@@ -38,7 +46,7 @@
 
 	var radiusSize = 5;
 
-	var decade = document.getElementById("decades").value;
+	//var decade = document.getElementById("decades").value;
 
 	var numsixties = 0;
 	var numseventies = 0;
@@ -103,7 +111,7 @@
 
 		console.log("artists")
 		console.log(artistValues);
-		showCircles(decade);
+		//showCircles(decade);
 	}
 
 
@@ -112,8 +120,8 @@
 		d3.selectAll("circle").remove();
 		d3.selectAll("text").remove();
 
-		var height = 500;
-		var width = 900;
+		var height = 600;
+		var width = 960;
 		var padding = 10;
 
 		var extent = 50
@@ -189,7 +197,7 @@
 			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
 			.force("y", d3.forceY(yScale(.3)))
 			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
-			.force("center", d3.forceCenter(400,250));
+			.force("center", d3.forceCenter(480,300));
 
 		simulation
 			.nodes(artistValues)
