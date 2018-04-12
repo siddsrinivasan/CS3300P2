@@ -150,6 +150,35 @@
 
 		var svg = d3.select("svg").attr("height", height).attr("width", width);
 
+		svg.append("text")
+		.attr("x", 10)
+		.attr("y", 30)
+		.style("fill", "#BBBBBB")
+		.style("font-size", 26)
+		.text(function(d){
+			if(decade == "Sixties"){
+				return "1960s";
+			}
+			else if (decade == "Seventies"){
+				return "1970s";
+			}
+			else if (decade == "Eighties"){
+				return "1980s";
+			}
+			else if (decade == "Nineties"){
+				return "1990s";
+			}
+			else if (decade == "Two_Thousands"){
+				return "2000s";
+			}
+			else if (decade == "Twenty_Tens"){
+				return "2010s";
+			}
+			else {
+				return "";
+			}
+		});
+
 
 
 
