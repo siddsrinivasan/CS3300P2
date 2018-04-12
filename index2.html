@@ -3,45 +3,11 @@
 <title>Artist Clusters</title>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
-<script src="d3-tip.js"></script>
-<script src="js/d3tip.js"></script>
 
 
 <link rel = "stylesheet" type = "text/css" href = "styles/style.css" />
 </head>
 <body>
-
-
-<style>
-.d3-tip {
-  line-height: 1;
-  font-weight: light;
-  padding: 12px;
-  background: #e6e6e6;
-  color: black;
-  border-radius: 2px;
-}
-
-/* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  position: absolute;
-  text-align: center;
-}
-
-</style>
-
-<!-- End Tool Tip stuff -->
-
-
-
-
 
 
 <div id="container">
@@ -68,7 +34,6 @@
 
 <script>
 
-
 	var artistValues;
 
 	var radiusSize = 5;
@@ -81,7 +46,6 @@
 	var numnineties = 0; 
 	var numtwotousands = 0;
 	var numtwentytens = 0;
-
 
 	function mutateRow(row) {
 
@@ -121,8 +85,8 @@
 	}
 
 	function callback(error, data){
-		//console.log("data")
-		//console.log(data);
+		console.log("data")
+		console.log(data);
 
 		artistValues = data.map(function(d){
 			return {
@@ -137,8 +101,8 @@
 			};
 		});
 
-		// console.log("artists")
-		// console.log(artistValues);
+		console.log("artists")
+		console.log(artistValues);
 		showCircles(decade);
 	}
 
@@ -186,11 +150,7 @@
 		var svg = d3.select("svg").attr("height", height).attr("width", width);
 
 
-		var tip = d3.tip()
-		      .attr("class", "d3-tip")
-		      .offset([-8, 0])
-		      .html(function(d) { return d; });
-		    svg.call(tip);
+
 
 		// not using this nodes array
 		var nodes = [];
@@ -219,23 +179,29 @@
 		for (var i = 0; i < numstop; i++) {
 		  nodes.push({
 		    "id": i,
+		    //"name": artistValues.Artist,
 		    "a": gaussian(),
+		    //"a": laxzyGaussian(nodes),
 		    "b": logNormal()
+		    //console.log(a);
 		  });
 		}
+
+		//console.log(nodes);
+
 
 		var simulation = d3.forceSimulation();
 
 		simulation
-			.force("x", d3.forceX(d => xScale(d[decade])).strength(.1))
+			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
 			.force("y", d3.forceY(yScale(.3)))
 			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
-			.force("center", d3.forceCenter(400,250));		// tells you the position of the center of the cluster?
+			.force("center", d3.forceCenter(400,250));
 
 		simulation
 			.nodes(artistValues)
 			.on("tick", updateDisplay);
-			// console.log(nodes);
+			console.log(nodes);
 
 			// Create circles for nodes.
 			// radius is num of hits in decade
@@ -252,8 +218,9 @@
 				.attr("r", function (d) { return rScale(d[decade]*2); })
 				.attr("class", "artistCircle")
 				.style("fill", function(d){
+
 					if(d.Gender == "male"){
-						// console.log(d.Gender)
+						console.log(d.Gender)
 						return "#399FF9";
 						//return fillScale("#399FF9");
 					} else if (d.Gender == "female"){
@@ -265,22 +232,8 @@
 
 				})
 				.style("opacity", 0.95)
-				.on('mouseover', tip.show)
-      			.on('mouseout', tip.hide);
-				// .on("mouseover", function(d) {		
-		  //           tip.transition()		
-		  //               .duration(200)		
-		  //               .style("opacity", .9);
-		  //           // position the tool tip in the right location
-		  //           tip.html(d)  
-	  	// 				.style("left", d3.select(this).attr("cx") + "px")     
-	  	// 				.style("top", d3.select(this).attr("cy") + "px");		
-		  //           })					
-		  //       .on("mouseout", function(d) {		
-		  //           tip.transition()		
-		  //               .duration(500)		
-		  //               .style("opacity", 0);	
-	   //      	});
+				// .attr("cx", function(d) { return d.x; })
+				// .attr("cy", function(d) { return d.y; });
 
 			//Move the circles to their locations.
 			updateDisplay();
@@ -293,7 +246,7 @@
 			}
 
 
-		//click/drag functions from https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7! and professor Mimno!
+		//click/drag functions from https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7! and professor mimno lol
 		circles
 		.call(d3.drag()
 		.on("start", dragstarted)
@@ -301,27 +254,97 @@
 		.on("end", dragended));
 
 		function dragstarted(d) {
-			if (!d3.event.active) { simulation.alphaTarget(0.3) };
-		  	d.fx = d.x;
-		  	d.fy = d.y;
+		  if (!d3.event.active) { simulation.alphaTarget(0.3).restart() };
+		  d.fx = d.x;
+		  d.fy = d.y;
 		}
 
 		function dragged(d) {
-		  	d.fx = d3.event.x;
-		  	d.fy = d3.event.y;
+		  d.fx = d3.event.x;
+		  d.fy = d3.event.y;
 		}
 
 		function dragended(d) {
-		  	if (!d3.event.active) { simulation.alphaTarget(0.0) };
-		  	d.fx = null;
-		  	d.fy = null;
+		  if (!d3.event.active) { simulation.alphaTarget(0) };
+		  d.fx = null;
+		  d.fy = null;
 		}
+
+
+		// svg.append("text")
+		// .attr("x", 10)
+		// .attr("y", 30)
+		// .style("font-size", 26)
+		// .style("fill", "#BBBBBB")
+		// .text(function(d){
+		// 	if(decade=="Sixties") {
+		// 		return "1960s";
+		// 	} else if (decade=="Seventies"){
+		// 		return "1970s";
+		// 	} else if (decade=="Eighties"){
+		// 		return "1980s";
+		// 	} else if (decade=="Nineties"){
+		// 		return "1990s";
+		// 	} else if (decade=="Two_Thousands"){
+		// 		return "2000s";
+		// 	} else if (decade=="Twenty_Tens"){
+		// 		return "2010s";
+		// 	} else {
+		// 		return "";
+		// 	}
+		// })
+
+		// svg.selectAll("dot")
+		// .data(artistValues)
+		// .enter().append("circle")
+		// 	.attr("id", function(d) { return d.Artist; })
+		// 	.attr("class", "artistCircle")
+		// 	.attr("r", function(d) {
+
+		// 		if(decade=="Sixties" && d.Sixties > 0) {
+		// 			return d.Sixties * radiusSize + 3;
+		// 		} else if (decade=="Seventies" && d.Seventies > 0){
+		// 			return d.Seventies * radiusSize + 3;
+		// 		} else if (decade=="Eighties" && d.Eighties > 0){
+		// 			return d.Eighties * radiusSize + 3;
+		// 		} else if (decade=="Nineties" && d.Nineties > 0){
+		// 			return d.Nineties * radiusSize + 3;
+		// 		} else if (decade=="Two_Thousands" && d.Two_Thousands > 0){
+		// 			return d.Two_Thousands * radiusSize + 3;
+		// 		} else if (decade=="Twenty_Tens" && d.Twenty_Tens > 0){
+		// 			return d.Twenty_Tens * radiusSize + 3;
+		// 		} else {
+		// 			return 0;
+		// 		}
+
+		// 	 })
+		// 	.style("fill", function(d){
+
+		// 		if(d.Gender == "male"){
+		// 			return "#399FF9";
+		// 		} else if (d.Gender == "female"){
+		// 			return "#F955F2";
+		// 		} else {
+		// 			return "#AFAFAF";
+		// 		}
+
+		// 	})
+		// 	.style("opacity", "0.5");
+
+		// d3.selectAll("circle").each(function(d, i) {
+
+		// 	d3.select(this)
+		// 	.attr("cx", Math.random() * 960)
+		// 	.attr("cy", Math.random() * 600);
+
+		// });
 
 	}
 
 	d3.csv("artist_song_counts1.csv", mutateRow, callback);
 
 </script>
+
 
 </body>
 </html>
