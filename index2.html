@@ -12,37 +12,41 @@
 
 <div id="titleCont">
 
-	<h1>One-Hit Wonders</h1>
+	<h1 class="animate-reveal">One-Hit Wonders Across the Years</h1>
 
 </div>
 
-<div id="container">
+<div id="envelope">
 
-	<div id="buttonbar">
-		<button class="decadeButton" type="button" onclick='showCircles("Sixties")''>1960s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Seventies")''>1970s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Nineties")''>1990s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Two_Thousands")''>2000s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Twenty_Tens")''>2010s</button>
+	<div id="container">
+
+		<div class="animate-reveal" id="buttonbar">
+			<button class="decadeButton" type="button" onclick='showCircles("Sixties")''>1960s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Seventies")''>1970s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button><br />
+			<button class="decadeButton" type="button" onclick='showCircles("Nineties")''>1990s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Two_Thousands")''>2000s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Twenty_Tens")''>2010s</button>
+		</div>
+
+		<svg class="animate-reveal" id="graph1" height="700" width="600"></svg>
+
 	</div>
 
-	<svg id="graph1" height="600" width="460"></svg>
+	<div id="container2">
 
-</div>
+		<div class="animate-reveal" id="buttonbar">
+			<button class="decadeButton" type="button" onclick='showCircles2("Sixties")''>1960s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Seventies")''>1970s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Eighties")''>1980s</button><br />
+			<button class="decadeButton" type="button" onclick='showCircles2("Nineties")''>1990s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Two_Thousands")''>2000s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Twenty_Tens")''>2010s</button>
+		</div>
 
-<div id="container2">
+		<svg class="animate-reveal" id="graph2" height="700" width="600"></svg>
 
-	<div id="buttonbar">
-		<button class="decadeButton" type="button" onclick='showCircles2("Sixties")''>1960s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Seventies")''>1970s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Eighties")''>1980s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Nineties")''>1990s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Two_Thousands")''>2000s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Twenty_Tens")''>2010s</button>
 	</div>
-
-	<svg id="graph2" height="600" width="460"></svg>
 
 </div>
 
@@ -149,8 +153,8 @@
 		d3.selectAll(".artistCircle1").remove();
 		d3.selectAll("#text1").remove();
 
-		var height = 600;
-		var width = 460;
+		var height = 700;
+		var width = 600;
 		var padding = 10;
 
 		var extent = 50
@@ -256,7 +260,7 @@
 			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
 			.force("y", d3.forceY(yScale(.3)))
 			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
-			.force("center", d3.forceCenter(230,300))
+			.force("center", d3.forceCenter(300,350))
 			.alpha(.08)
 			.alphaDecay(0.10);
 
@@ -332,75 +336,6 @@
 		  d.fy = null;
 		}
 
-
-		// svg.append("text")
-		// .attr("x", 10)
-		// .attr("y", 30)
-		// .style("font-size", 26)
-		// .style("fill", "#BBBBBB")
-		// .text(function(d){
-		// 	if(decade=="Sixties") {
-		// 		return "1960s";
-		// 	} else if (decade=="Seventies"){
-		// 		return "1970s";
-		// 	} else if (decade=="Eighties"){
-		// 		return "1980s";
-		// 	} else if (decade=="Nineties"){
-		// 		return "1990s";
-		// 	} else if (decade=="Two_Thousands"){
-		// 		return "2000s";
-		// 	} else if (decade=="Twenty_Tens"){
-		// 		return "2010s";
-		// 	} else {
-		// 		return "";
-		// 	}
-		// })
-
-		// svg.selectAll("dot")
-		// .data(artistValues)
-		// .enter().append("circle")
-		// 	.attr("id", function(d) { return d.Artist; })
-		// 	.attr("class", "artistCircle")
-		// 	.attr("r", function(d) {
-
-		// 		if(decade=="Sixties" && d.Sixties > 0) {
-		// 			return d.Sixties * radiusSize + 3;
-		// 		} else if (decade=="Seventies" && d.Seventies > 0){
-		// 			return d.Seventies * radiusSize + 3;
-		// 		} else if (decade=="Eighties" && d.Eighties > 0){
-		// 			return d.Eighties * radiusSize + 3;
-		// 		} else if (decade=="Nineties" && d.Nineties > 0){
-		// 			return d.Nineties * radiusSize + 3;
-		// 		} else if (decade=="Two_Thousands" && d.Two_Thousands > 0){
-		// 			return d.Two_Thousands * radiusSize + 3;
-		// 		} else if (decade=="Twenty_Tens" && d.Twenty_Tens > 0){
-		// 			return d.Twenty_Tens * radiusSize + 3;
-		// 		} else {
-		// 			return 0;
-		// 		}
-
-		// 	 })
-		// 	.style("fill", function(d){
-
-		// 		if(d.Gender == "male"){
-		// 			return "#399FF9";
-		// 		} else if (d.Gender == "female"){
-		// 			return "#F955F2";
-		// 		} else {
-		// 			return "#AFAFAF";
-		// 		}
-
-		// 	})
-		// 	.style("opacity", "0.5");
-
-		// d3.selectAll("circle").each(function(d, i) {
-
-		// 	d3.select(this)
-		// 	.attr("cx", Math.random() * 960)
-		// 	.attr("cy", Math.random() * 600);
-
-		// });
-
 	}
 
 	function showCircles2(decade){
@@ -408,8 +343,8 @@
 		d3.selectAll(".artistCircle2").remove();
 		d3.selectAll("#text2").remove();
 
-		var height = 600;
-		var width = 460;
+		var height = 700;
+		var width = 600;
 		var padding = 10;
 
 		var extent = 50
@@ -515,7 +450,7 @@
 			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
 			.force("y", d3.forceY(yScale(.3)))
 			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
-			.force("center", d3.forceCenter(230,300))
+			.force("center", d3.forceCenter(300,350))
 			.alpha(.08)
 			.alphaDecay(0.10);
 
@@ -591,75 +526,6 @@
 		  d.fx = null;
 		  d.fy = null;
 		}
-
-
-		// svg.append("text")
-		// .attr("x", 10)
-		// .attr("y", 30)
-		// .style("font-size", 26)
-		// .style("fill", "#BBBBBB")
-		// .text(function(d){
-		// 	if(decade=="Sixties") {
-		// 		return "1960s";
-		// 	} else if (decade=="Seventies"){
-		// 		return "1970s";
-		// 	} else if (decade=="Eighties"){
-		// 		return "1980s";
-		// 	} else if (decade=="Nineties"){
-		// 		return "1990s";
-		// 	} else if (decade=="Two_Thousands"){
-		// 		return "2000s";
-		// 	} else if (decade=="Twenty_Tens"){
-		// 		return "2010s";
-		// 	} else {
-		// 		return "";
-		// 	}
-		// })
-
-		// svg.selectAll("dot")
-		// .data(artistValues)
-		// .enter().append("circle")
-		// 	.attr("id", function(d) { return d.Artist; })
-		// 	.attr("class", "artistCircle")
-		// 	.attr("r", function(d) {
-
-		// 		if(decade=="Sixties" && d.Sixties > 0) {
-		// 			return d.Sixties * radiusSize + 3;
-		// 		} else if (decade=="Seventies" && d.Seventies > 0){
-		// 			return d.Seventies * radiusSize + 3;
-		// 		} else if (decade=="Eighties" && d.Eighties > 0){
-		// 			return d.Eighties * radiusSize + 3;
-		// 		} else if (decade=="Nineties" && d.Nineties > 0){
-		// 			return d.Nineties * radiusSize + 3;
-		// 		} else if (decade=="Two_Thousands" && d.Two_Thousands > 0){
-		// 			return d.Two_Thousands * radiusSize + 3;
-		// 		} else if (decade=="Twenty_Tens" && d.Twenty_Tens > 0){
-		// 			return d.Twenty_Tens * radiusSize + 3;
-		// 		} else {
-		// 			return 0;
-		// 		}
-
-		// 	 })
-		// 	.style("fill", function(d){
-
-		// 		if(d.Gender == "male"){
-		// 			return "#399FF9";
-		// 		} else if (d.Gender == "female"){
-		// 			return "#F955F2";
-		// 		} else {
-		// 			return "#AFAFAF";
-		// 		}
-
-		// 	})
-		// 	.style("opacity", "0.5");
-
-		// d3.selectAll("circle").each(function(d, i) {
-
-		// 	d3.select(this)
-		// 	.attr("cx", Math.random() * 960)
-		// 	.attr("cy", Math.random() * 600);
-
-		// });
 
 	}
 

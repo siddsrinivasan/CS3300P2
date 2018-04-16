@@ -2,14 +2,21 @@ body {
 	background-color: #000000;
 }
 
+#envelope {
+	max-width: 1250px;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
 #container {
-	max-width: 480px;
+	max-width: 600px;
 	display: block;
 	float: left;
 }
 
 #container2 {
-	max-width: 480px;
+	max-width: 600px;
 	display: block;
 	float: right;
 }
@@ -26,16 +33,97 @@ svg {
 h1 {
 	color: #BBBBBB;
 	text-align: center;
+	font-family: "Goudy Bookletter 1911", sans-serif;
+	font-size: 40;
+}
+
+.animate-reveal {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0;
+  -webkit-animation: reveal 2s cubic-bezier(0, 1, 0.5, 1) 1 normal forwards;
+     -moz-animation: reveal 2s ease-in 1 normal forwards;
+       -o-animation: reveal 2s cubic-bezier(0, 1, 0.5, 1) 1 normal forwards;
+          animation: reveal 2s cubic-bezier(0, 1, 0.5, 1) 1 normal forwards;
+}
+
+@-webkit-keyframes reveal {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(100%);
+       -moz-transform: translateY(100%);
+         -o-transform: translateY(100%);
+            transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+       -moz-transform: translateY(0);
+         -o-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@-moz-keyframes reveal {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(100%);
+       -moz-transform: translateY(100%);
+         -o-transform: translateY(100%);
+            transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+       -moz-transform: translateY(0);
+         -o-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@-o-keyframes reveal {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(100%);
+       -moz-transform: translateY(100%);
+         -o-transform: translateY(100%);
+            transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+       -moz-transform: translateY(0);
+         -o-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes reveal {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(100%);
+       -moz-transform: translateY(100%);
+         -o-transform: translateY(100%);
+            transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+       -moz-transform: translateY(0);
+         -o-transform: translateY(0);
+            transform: translateY(0);
+  }
 }
 
 #buttonbar {
-   display: flex;
+   display: block;
+   max-width: 480px;
    justify-content: space-between;
 }
 
 .decadeButton{
 
-   display: table-cell;
+   display: inline-block;
    padding: 16px 32px;
    text-align: center;
    text-decoration: none;
