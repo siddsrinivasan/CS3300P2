@@ -38,7 +38,6 @@ h1 {
 }
 
 .animate-reveal {
-  text-transform: uppercase;
   letter-spacing: 2px;
   opacity: 0;
   -webkit-animation: reveal 2s cubic-bezier(0, 1, 0.5, 1) 1 normal forwards;
