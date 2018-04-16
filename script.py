@@ -55,15 +55,15 @@ for row in data:
 		dp[array_locations[det_decade(row[3])]] =1
 		dp[array_locations["songs"]] = row[1]
 		artists_data[artist] = dp
-		artists_data[artist][array_locations["start"]] = year
-		artists_data[artist][array_locations["end"]] = year 
+		artists_data[artist][array_locations["start"]] = str(year)
+		artists_data[artist][array_locations["end"]] = str(year)
 		
 	else:
 		#increment the song count, add the new song 	
-		if year < artists_data[artist][array_locations["start"]]:
-			artists_data[artist][array_locations["start"]] = year
-		elif year > artists_data[artist][array_locations["end"]]:
-			artists_data[artist][array_locations["end"]] = year
+		if int(year) < int(artists_data[artist][array_locations["start"]]):
+			artists_data[artist][array_locations["start"]] = str(year)
+		elif int(year) > int(artists_data[artist][array_locations["end"]]):
+			artists_data[artist][array_locations["end"]] = str(year)
 
 		scaled_yr = det_decade(row[3])
 		artists_data[artist][array_locations[scaled_yr]] += 1
@@ -96,7 +96,7 @@ for artist in artists_data:
 
 
 
-write_to_csv(final_array, "artist_song_counts_range.csv")
+write_to_csv(final_array, "artist_song_counts_range1.csv")
 
 
 
