@@ -15,7 +15,7 @@ body {
 }
 
 svg {
-	border: solid #BBBBBB 2px;
+   border: solid #BBBBBB 2px;
    border-radius: 20px;
    /*//text-align: center;
    display: block;*/
@@ -56,12 +56,22 @@ h1 {
    color: white;
 }
 
-.artistCircle {
+.artistCircle1 {
 	stroke: black;
 	stroke-width: 2px;
 }
 
-.artistCircle:hover {
+.artistCircle1:hover {
+	stroke: white;
+	stroke-width: 4px;
+}
+
+.artistCircle2 {
+	stroke: black;
+	stroke-width: 2px;
+}
+
+.artistCircle2:hover {
 	stroke: white;
 	stroke-width: 4px;
 }
