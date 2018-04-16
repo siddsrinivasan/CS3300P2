@@ -38,7 +38,6 @@ h1 {
 }
 
 .animate-reveal {
-  letter-spacing: 2px;
   opacity: 0;
   -webkit-animation: reveal 2s cubic-bezier(0, 1, 0.5, 1) 1 normal forwards;
      -moz-animation: reveal 2s ease-in 1 normal forwards;
@@ -115,15 +114,15 @@ h1 {
 }
 
 #buttonbar {
-   display: block;
-   max-width: 480px;
+   display: flex;
+   max-width: 600px;
    justify-content: space-between;
 }
 
 .decadeButton{
 
-   display: inline-block;
-   padding: 16px 32px;
+   display: table;
+   padding: 4px 8px;
    text-align: center;
    text-decoration: none;
    font-size: 16px;
