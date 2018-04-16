@@ -78,6 +78,7 @@
 	var numtwentytens = 0;
 
 	function mutateRow(row) {
+		//console.log(row);
 
 		row["Artist"] = row["Artist"];
 
@@ -105,6 +106,9 @@
 		if (row["Twenty_Tens"] > 0){
 			numtwentytens++;
 		}
+		row["Total"] = Number(row["Total"]);
+		//console.log(row["Total"]);
+		//console.log(typeof(row["Total"]));
 
 		row["Gender"] = row["Gender"];
 
@@ -115,8 +119,8 @@
 	}
 
 	function callback(error, data){
-		console.log("data")
-		console.log(data);
+		//console.log("data")
+		//console.log(data);
 
 		artistValues = data.map(function(d){
 			return {
@@ -127,12 +131,15 @@
 				Nineties: d.Nineties,
 				Two_Thousands: d.Two_Thousands,
 				Twenty_Tens: d.Twenty_Tens,
-				Gender: d.Gender
+				Gender: d.Gender,
+				Total: d.Total
+			
+
 			};
+			//console.log(artistValues);
 		});
 
-		console.log("artists")
-		console.log(artistValues);
+		//console.log(artistValues);
 		//showCircles(decade);
 	}
 
@@ -256,7 +263,7 @@
 		simulation
 			.nodes(artistValues)
 			.on("tick", updateDisplay);
-			console.log(nodes);
+			//console.log(nodes);
 
 			// Create circles for nodes.
 			// radius is num of hits in decade
@@ -265,17 +272,17 @@
 			// pink is female
 			// blue male 
 
-
+			// console.log(d[Total]);
 			var circles = svg.selectAll("circle")
 				.data(artistValues).enter()
 				.filter(function (d) {return d[decade] > 0; })
 				.append("circle")
-				.attr("r", function (d) { return rScale(d[decade]*2); })
+				.attr("r", function (d) {return rScale(d[decade]*2);})
 				.attr("class", "artistCircle1")
 				.style("fill", function(d){
 
 					if(d.Gender == "male"){
-						console.log(d.Gender)
+						//console.log(d.Gender)
 						return "#399FF9";
 						//return fillScale("#399FF9");
 					} else if (d.Gender == "female"){
@@ -516,7 +523,7 @@
 			.nodes(artistValues)
 			.on("tick", updateDisplay)
 			// .alpha(.08)
-			console.log(nodes);
+			//console.log(nodes);
 
 			// Create circles for nodes.
 			// radius is num of hits in decade
@@ -530,12 +537,12 @@
 				.data(artistValues).enter()
 				.filter(function (d) {return d[decade] > 0; })
 				.append("circle")
-				.attr("r", function (d) { return rScale(d[decade]*2); })
+				.attr("r", function (d) {return rScale(d[decade]*2);})
 				.attr("class", "artistCircle2")
 				.style("fill", function(d){
 
 					if(d.Gender == "male"){
-						console.log(d.Gender)
+						//console.log(d.Gender)
 						return "#399FF9";
 						//return fillScale("#399FF9");
 					} else if (d.Gender == "female"){
@@ -656,7 +663,7 @@
 
 	}
 
-	d3.csv("artist_song_counts2.csv", mutateRow, callback);
+	d3.csv("artist_song_counts_range1.csv", mutateRow, callback);
 
 </script>
 
