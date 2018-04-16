@@ -40,7 +40,7 @@ div.tooltip {
 		<div class="animate-reveal" id="buttonbar">
 			<button class="decadeButton" type="button" onclick='showCircles("Sixties")''>1960s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Seventies")''>1970s</button>
-			<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button><br />
+			<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Nineties")''>1990s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Two_Thousands")''>2000s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Twenty_Tens")''>2010s</button>
@@ -55,7 +55,7 @@ div.tooltip {
 		<div class="animate-reveal" id="buttonbar">
 			<button class="decadeButton" type="button" onclick='showCircles2("Sixties")''>1960s</button>
 			<button class="decadeButton" type="button" onclick='showCircles2("Seventies")''>1970s</button>
-			<button class="decadeButton" type="button" onclick='showCircles2("Eighties")''>1980s</button><br />
+			<button class="decadeButton" type="button" onclick='showCircles2("Eighties")''>1980s</button>
 			<button class="decadeButton" type="button" onclick='showCircles2("Nineties")''>1990s</button>
 			<button class="decadeButton" type="button" onclick='showCircles2("Two_Thousands")''>2000s</button>
 			<button class="decadeButton" type="button" onclick='showCircles2("Twenty_Tens")''>2010s</button>
@@ -76,7 +76,7 @@ div.tooltip {
 
 <script>
 
-	var div = d3.select("body").append("div")
+	var tip1 = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -314,7 +314,7 @@ div.tooltip {
 				// .attr("cx", function(d) { return d.x; })
 				// .attr("cy", function(d) { return d.y; })
 				.on("mouseover", function(d) {
-			 		div.transition()
+			 		tip1.transition()
 			         .duration(200)
 			         .style("opacity", 1.0)
 			         .text(d.Artist)
@@ -323,7 +323,7 @@ div.tooltip {
 			         .style("top", (d3.event.pageY - 28) + "px");
 			       })
 			    .on("mouseout", function(d) {
-			       div.transition()
+			       tip1.transition()
 			         .duration(500)
 			         .style("opacity", 0);
 			       })
@@ -520,6 +520,24 @@ div.tooltip {
 				.style("opacity", 0.95)
 				// .attr("cx", function(d) { return d.x; })
 				// .attr("cy", function(d) { return d.y; });
+								.style("opacity", 0.95)
+				// .attr("cx", function(d) { return d.x; })
+				// .attr("cy", function(d) { return d.y; })
+				.on("mouseover", function(d) {
+			 		tip2.transition()
+			         .duration(200)
+			         .style("opacity", 1.0)
+			         .text(d.Artist)
+			       // div.html(formatTime(d.date) + "<br/>" + d.close)
+			         .style("left", (d3.event.pageX + 20) + "px")
+			         .style("top", (d3.event.pageY - 28) + "px");
+			       })
+			    .on("mouseout", function(d) {
+			       tip2.transition()
+			         .duration(500)
+			         .style("opacity", 0);
+			       })
+			    ;
 
 			//Move the circles to their locations.
 			updateDisplay();
