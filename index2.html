@@ -1,4 +1,5 @@
 <html>
+<html>
 <head>
 <title>Artist Clusters</title>
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -9,11 +10,26 @@
 </head>
 <body>
 
+<style>
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 100px;
+  height: 40px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: green;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+}
+</style>>
+
 
 <div id="titleCont">
 
 	<h1 class="animate-reveal">One-Hit Wonders Across the Years</h1>
-	<p id="subt" class="animate-reveal">A visualization showing how much of the Billboard charts are about the songs or the artists behind them.</p>
+	<p id="subt" class="animate-reveal">A visualization showing whether the Billboard charts are about the songs or the artists behind them.</p>
 
 </div>
 
@@ -24,7 +40,7 @@
 		<div class="animate-reveal" id="buttonbar">
 			<button class="decadeButton" type="button" onclick='showCircles("Sixties")''>1960s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Seventies")''>1970s</button>
-			<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button><br />
 			<button class="decadeButton" type="button" onclick='showCircles("Nineties")''>1990s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Two_Thousands")''>2000s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Twenty_Tens")''>2010s</button>
@@ -39,7 +55,7 @@
 		<div class="animate-reveal" id="buttonbar">
 			<button class="decadeButton" type="button" onclick='showCircles2("Sixties")''>1960s</button>
 			<button class="decadeButton" type="button" onclick='showCircles2("Seventies")''>1970s</button>
-			<button class="decadeButton" type="button" onclick='showCircles2("Eighties")''>1980s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Eighties")''>1980s</button><br />
 			<button class="decadeButton" type="button" onclick='showCircles2("Nineties")''>1990s</button>
 			<button class="decadeButton" type="button" onclick='showCircles2("Two_Thousands")''>2000s</button>
 			<button class="decadeButton" type="button" onclick='showCircles2("Twenty_Tens")''>2010s</button>
@@ -52,22 +68,17 @@
 </div>
 
 
-	<!-- 
-	<select name="decades" id="decades" value="Sixties"
-	oninput="showCircles(this.value)"
-	onchange="showCircles(this.value)">
-    	<option value="Sixties">1960s</option>
-    	<option value="Seventies">1970s</option>
-    	<option value="Eighties">1980s</option>
-    	<option value="Nineties">1990s</option>
-    	<option value="Two_Thousands">2000s</option>
-    	<option value="Twenty_Tens">2010s</option>
-  	</select> -->
+
+
 
 </div>
 
 
 <script>
+
+	var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
 
 	var artistValues;
 
@@ -298,9 +309,26 @@
 					}
 
 				})
+
 				.style("opacity", 0.95)
 				// .attr("cx", function(d) { return d.x; })
-				// .attr("cy", function(d) { return d.y; });
+				// .attr("cy", function(d) { return d.y; })
+				.on("mouseover", function(d) {
+			 		div.transition()
+			         .duration(200)
+			         .style("opacity", 1.0)
+			         .text(d.Artist)
+			       // div.html(formatTime(d.date) + "<br/>" + d.close)
+			         .style("left", (d3.event.pageX + 20) + "px")
+			         .style("top", (d3.event.pageY - 28) + "px");
+			       })
+			    .on("mouseout", function(d) {
+			       div.transition()
+			         .duration(500)
+			         .style("opacity", 0);
+			       })
+			    ;
+
 
 			//Move the circles to their locations.
 			updateDisplay();
