@@ -43,7 +43,7 @@ h1 {
 	text-align: center;
 }
 
-/* adapted from https://css-tricks.com/ease-out-in-ease-in-out/ */
+/* adapted from https://css-tricks.com/forums/topic/on-load-text-effect/ */
 
 .animate-reveal {
   opacity: 0;
