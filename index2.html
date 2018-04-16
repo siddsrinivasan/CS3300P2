@@ -249,7 +249,9 @@
 			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
 			.force("y", d3.forceY(yScale(.3)))
 			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
-			.force("center", d3.forceCenter(230,300));
+			.force("center", d3.forceCenter(230,300))
+			.alpha(.08)
+			.alphaDecay(0.10);
 
 		simulation
 			.nodes(artistValues)
@@ -506,11 +508,14 @@
 			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
 			.force("y", d3.forceY(yScale(.3)))
 			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
-			.force("center", d3.forceCenter(230,300));
+			.force("center", d3.forceCenter(230,300))
+			.alpha(.08)
+			.alphaDecay(0.10);
 
 		simulation
 			.nodes(artistValues)
-			.on("tick", updateDisplay);
+			.on("tick", updateDisplay)
+			// .alpha(.08)
 			console.log(nodes);
 
 			// Create circles for nodes.
