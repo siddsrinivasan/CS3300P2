@@ -3,27 +3,13 @@
 <head>
 <title>Artist Clusters</title>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="jquery-3.3.1.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
 
 
 <link rel = "stylesheet" type = "text/css" href = "styles/style.css" />
 </head>
 <body>
-
-<style>
-div.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 100px;
-  height: 40px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: green;
-  border: 0px;
-  border-radius: 8px;
-  pointer-events: none;
-}
-</style>>
 
 
 <div id="titleCont">
@@ -38,7 +24,7 @@ div.tooltip {
 	<div id="container">
 
 		<div class="animate-reveal" id="buttonbar">
-			<button class="decadeButton" type="button" onclick='showCircles("Sixties")''>1960s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Sixties"); buttonColor(this);''>1960s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Seventies")''>1970s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button>
 			<button class="decadeButton" type="button" onclick='showCircles("Nineties")''>1990s</button>
@@ -68,15 +54,16 @@ div.tooltip {
 </div>
 
 
-
-
-
 </div>
 
 
 <script>
 
 	var tip1 = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+    var tip2 = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
@@ -157,6 +144,18 @@ div.tooltip {
 
 		//console.log(artistValues);
 		//showCircles(decade);
+	}
+
+	function buttonColor(button){
+
+
+		d3.selectAll("button").attr("backgroundColor", "white")
+
+    	var property = document.getElementById(button);
+
+        property.style.backgroundColor = "#5555555";
+
+
 	}
 
 

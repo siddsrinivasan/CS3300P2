@@ -38,6 +38,19 @@ h1 {
 	font-size: 50;
 }
 
+.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 6px;
+  font-family: Arial, sans-serif;
+  font-size: 14pt;
+  background: green;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+  text-transform: uppercase;
+}
+
 #subt{
 	color: white;
 	text-align: center;
@@ -150,6 +163,11 @@ h1 {
 .decadeButton:hover {
    background-color: #555555;
    color: white;
+}
+
+.decadeButton:active {
+	background-color: #555555;
+	color: white;
 }
 
 .artistCircle1 {
