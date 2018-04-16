@@ -38,24 +38,33 @@ with open("billboardlyrics.csv") as f:
 		data.append(row)
 
 
-array_locations = {"1960": 0, "1970": 1, "1980": 2, "1990": 3, "2000": 4, "2010": 5, "songs": 6}
+array_locations = {"1960": 0, "1970": 1, "1980": 2, "1990": 3, "2000": 4, "2010": 5, "songs": 6, "start": 7, "end": 8}
 
 
 artists_data = {}
 data = data[1:]
 for row in data:
 	artist = row[2]
+	year = row[3]
 	# trim off the feature from the artist.
 	artist = remove_feature(artist)
 
 	if artist not in artists_data:
 		# create data array of the appropriate length
-		dp = [0] *7 
+		dp = [0] *9
 		dp[array_locations[det_decade(row[3])]] =1
 		dp[array_locations["songs"]] = row[1]
 		artists_data[artist] = dp
+		artists_data[artist][array_locations["start"]] = year
+		artists_data[artist][array_locations["end"]] = year 
+		
 	else:
-		#increment the song count, add the new song 
+		#increment the song count, add the new song 	
+		if year < artists_data[artist][array_locations["start"]]:
+			artists_data[artist][array_locations["start"]] = year
+		elif year > artists_data[artist][array_locations["end"]]:
+			artists_data[artist][array_locations["end"]] = year
+
 		scaled_yr = det_decade(row[3])
 		artists_data[artist][array_locations[scaled_yr]] += 1
 		# add neww song to songs string.
@@ -87,7 +96,7 @@ for artist in artists_data:
 
 
 
-write_to_csv(final_array, "artist_song_counts1.csv")
+write_to_csv(final_array, "artist_song_counts_range.csv")
 
 
 
