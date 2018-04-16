@@ -16,33 +16,37 @@
 
 </div>
 
-<div id="container">
+<div id="envelope">
 
-	<div id="buttonbar">
-		<button class="decadeButton" type="button" onclick='showCircles("Sixties")''>1960s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Seventies")''>1970s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Nineties")''>1990s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Two_Thousands")''>2000s</button>
-		<button class="decadeButton" type="button" onclick='showCircles("Twenty_Tens")''>2010s</button>
+	<div id="container">
+
+		<div id="buttonbar">
+			<button class="decadeButton" type="button" onclick='showCircles("Sixties")''>1960s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Seventies")''>1970s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button><br />
+			<button class="decadeButton" type="button" onclick='showCircles("Nineties")''>1990s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Two_Thousands")''>2000s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Twenty_Tens")''>2010s</button>
+		</div>
+
+		<svg id="graph1" height="700" width="600"></svg>
+
 	</div>
 
-	<svg id="graph1" height="600" width="460"></svg>
+	<div id="container2">
 
-</div>
+		<div id="buttonbar">
+			<button class="decadeButton" type="button" onclick='showCircles2("Sixties")''>1960s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Seventies")''>1970s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Eighties")''>1980s</button><br />
+			<button class="decadeButton" type="button" onclick='showCircles2("Nineties")''>1990s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Two_Thousands")''>2000s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Twenty_Tens")''>2010s</button>
+		</div>
 
-<div id="container2">
+		<svg id="graph2" height="700" width="600"></svg>
 
-	<div id="buttonbar">
-		<button class="decadeButton" type="button" onclick='showCircles2("Sixties")''>1960s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Seventies")''>1970s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Eighties")''>1980s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Nineties")''>1990s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Two_Thousands")''>2000s</button>
-		<button class="decadeButton" type="button" onclick='showCircles2("Twenty_Tens")''>2010s</button>
 	</div>
-
-	<svg id="graph2" height="600" width="460"></svg>
 
 </div>
 
@@ -142,8 +146,8 @@
 		d3.selectAll(".artistCircle1").remove();
 		d3.selectAll("#text1").remove();
 
-		var height = 600;
-		var width = 460;
+		var height = 700;
+		var width = 600;
 		var padding = 10;
 
 		var extent = 50
@@ -249,7 +253,7 @@
 			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
 			.force("y", d3.forceY(yScale(.3)))
 			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
-			.force("center", d3.forceCenter(230,300))
+			.force("center", d3.forceCenter(300,350))
 			.alpha(.08)
 			.alphaDecay(0.10);
 
@@ -401,8 +405,8 @@
 		d3.selectAll(".artistCircle2").remove();
 		d3.selectAll("#text2").remove();
 
-		var height = 600;
-		var width = 460;
+		var height = 700;
+		var width = 600;
 		var padding = 10;
 
 		var extent = 50
@@ -508,7 +512,7 @@
 			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
 			.force("y", d3.forceY(yScale(.3)))
 			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
-			.force("center", d3.forceCenter(230,300))
+			.force("center", d3.forceCenter(300,350))
 			.alpha(.08)
 			.alphaDecay(0.10);
 
