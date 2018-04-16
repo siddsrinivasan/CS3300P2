@@ -38,7 +38,7 @@ with open("billboardlyrics.csv") as f:
 		data.append(row)
 
 
-array_locations = {"1960": 0, "1970": 1, "1980": 2, "1990": 3, "2000": 4, "2010": 5, "songs": 6, "start": 7, "end": 8}
+array_locations = {"1960": 0, "1970": 1, "1980": 2, "1990": 3, "2000": 4, "2010": 5, "songs": 6, "start": 7, "end": 8, "total": 9}
 
 
 artists_data = {}
@@ -51,12 +51,13 @@ for row in data:
 
 	if artist not in artists_data:
 		# create data array of the appropriate length
-		dp = [0] *9
+		dp = [0] *10
 		dp[array_locations[det_decade(row[3])]] =1
 		dp[array_locations["songs"]] = row[1]
 		artists_data[artist] = dp
 		artists_data[artist][array_locations["start"]] = str(year)
 		artists_data[artist][array_locations["end"]] = str(year)
+		artists_data[artist][array_locations["total"]] = 0 
 		
 	else:
 		#increment the song count, add the new song 	
@@ -67,6 +68,7 @@ for row in data:
 
 		scaled_yr = det_decade(row[3])
 		artists_data[artist][array_locations[scaled_yr]] += 1
+		artists_data[artist][array_locations["total"]] += 1
 		# add neww song to songs string.
 		artists_data[artist][array_locations["songs"]] = artists_data[artist][array_locations["songs"]] + ", " + row[1]
 
