@@ -153,7 +153,7 @@ h1 {
 
 
 .decadeButton{
-  font-family: Futura;
+   font-family: Futura;
    display: table;
    padding: 10px 10px;
    text-align: center;
@@ -168,16 +168,6 @@ h1 {
 /*   border: 2px solid #555555;*/
    border-radius: 30%;
 
-}
-
-.decadeButton:hover {
-   background-color: #555555;
-   color: white;
-}
-
-.decadeButton:active {
-	background-color: #555555;
-	color: white;
 }
 
 .artistCircle1 {
