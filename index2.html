@@ -1,35 +1,46 @@
 <html>
-<html>
 <head>
 <title>Artist Clusters</title>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="jquery-3.3.1.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 
 <link rel = "stylesheet" type = "text/css" href = "styles/style.css" />
 </head>
 <body>
-
-
+<!-- One-Hit Wonders Across the Years
+ -->
 <div id="titleCont">
+	<h1 class="animate-reveal">The Decline of the One Hit Wonder</h1>
+		<p id="subt" class="animate-reveal"> 
 
-	<h1 class="animate-reveal">One-Hit Wonders Across the Years</h1>
-	<p id="subt" class="animate-reveal">A visualization showing whether the Billboard charts are about the songs or the artists behind them.</p>
-
+		The frequency of One-Hit Wonders and the genders of Mainstream Artists from 1965-2015</p>
 </div>
+<br>
 
+<!-- 		The frequency and genders of Top Billboard Artists from 1965-2010<
+ -->
+
+<!-- 		//The frequency and genders of One-Hit Wonders and Mainstream Artists from 1965-2010
+ -->
 <div id="envelope">
 
 	<div id="container">
 
-		<div class="animate-reveal" id="buttonbar">
-			<button class="decadeButton" type="button" onclick='showCircles("Sixties"); buttonColor(this);''>1960s</button>
-			<button class="decadeButton" type="button" onclick='showCircles("Seventies")''>1970s</button>
-			<button class="decadeButton" type="button" onclick='showCircles("Eighties")''>1980s</button>
-			<button class="decadeButton" type="button" onclick='showCircles("Nineties")''>1990s</button>
-			<button class="decadeButton" type="button" onclick='showCircles("Two_Thousands")''>2000s</button>
-			<button class="decadeButton" type="button" onclick='showCircles("Twenty_Tens")''>2010s</button>
+		<div class="animate-reveal" id="buttonbar1">
+			<button class="decadeButton" id = "start1" type="button" onclick='showCircles("Sixties"); interim_state1(this);''>1960s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Seventies");
+			 interim_state1(this);''>1970s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Eighties"); 
+			interim_state1(this);''>1980s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Nineties");
+			 interim_state1(this);''>1990s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Two_Thousands");interim_state1(this);''>2000s</button>
+			<button class="decadeButton" type="button" onclick='showCircles("Twenty_Tens");
+			interim_state1(this);''>2010s</button>
+			<br>
 		</div>
 
 		<svg class="animate-reveal" id="graph1" height="700" width="600"></svg>
@@ -38,16 +49,22 @@
 
 	<div id="container2">
 
-		<div class="animate-reveal" id="buttonbar">
-			<button class="decadeButton" type="button" onclick='showCircles2("Sixties")''>1960s</button>
-			<button class="decadeButton" type="button" onclick='showCircles2("Seventies")''>1970s</button>
-			<button class="decadeButton" type="button" onclick='showCircles2("Eighties")''>1980s</button>
-			<button class="decadeButton" type="button" onclick='showCircles2("Nineties")''>1990s</button>
-			<button class="decadeButton" type="button" onclick='showCircles2("Two_Thousands")''>2000s</button>
-			<button class="decadeButton" type="button" onclick='showCircles2("Twenty_Tens")''>2010s</button>
+		<div class="animate-reveal" id="buttonbar2">
+			<br>
+			<button class="decadeButton" type="button" onclick='showCircles2("Sixties");
+			interim_state2(this)''>1960s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Seventies");
+			interim_state2(this);''>1970s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Eighties");
+			interim_state2(this);''>1980s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Nineties");
+			interim_state2(this);''>1990s</button>
+			<button class="decadeButton" type="button" onclick='showCircles2("Two_Thousands");
+			interim_state2(this);''>2000s</button>
+			<button class="decadeButton" id = "start2" type="button" onclick='showCircles2("Twenty_Tens");interim_state2(this);''>2010s</button>
 		</div>
 
-		<svg class="animate-reveal" id="graph2" height="700" width="600"></svg>
+		<svg id="graph2" height="700" width="600"></svg>
 
 	</div>
 
@@ -70,8 +87,6 @@
 	var artistValues;
 
 	var radiusSize = 5;
-
-	//var decade = document.getElementById("decades").value;
 
 	var numsixties = 0;
 	var numseventies = 0;
@@ -110,21 +125,12 @@
 			numtwentytens++;
 		}
 		row["Total"] = Number(row["Total"]);
-		//console.log(row["Total"]);
-		//console.log(typeof(row["Total"]));
-
 		row["Gender"] = row["Gender"];
-
-		//console.log(numsixties);
-
 		return row;
 
 	}
 
 	function callback(error, data){
-		//console.log("data")
-		//console.log(data);
-
 		artistValues = data.map(function(d){
 			return {
 				Artist: d.Artist,
@@ -139,16 +145,12 @@
 			
 
 			};
-			//console.log(artistValues);
 		});
 
-		//console.log(artistValues);
-		//showCircles(decade);
+		start_state()
 	}
 
 	function buttonColor(button){
-
-
 		d3.selectAll("button").attr("backgroundColor", "white")
 
     	var property = document.getElementById(button);
@@ -167,9 +169,7 @@
 		var height = 700;
 		var width = 600;
 		var padding = 10;
-
 		var extent = 50
-
 		var xScale = d3.scaleLinear().domain([-extent, extent]).range([0, width]);
 		var yScale = d3.scaleLinear().domain([-extent, extent]).range([height, 0]);
 		var rScale = d3.scaleSqrt().domain([0, 10]).range([0, 15]);
@@ -193,39 +193,6 @@
 
 
 		var svg = d3.select("#graph1").attr("height", height).attr("width", width);
-
-		svg.append("text")
-		.attr("id", "text1")
-		.attr("x", 10)
-		.attr("y", 30)
-		.style("fill", "#BBBBBB")
-		.style("font-size", 26)
-		.text(function(d){
-			if(decade == "Sixties"){
-				return "1960s";
-			}
-			else if (decade == "Seventies"){
-				return "1970s";
-			}
-			else if (decade == "Eighties"){
-				return "1980s";
-			}
-			else if (decade == "Nineties"){
-				return "1990s";
-			}
-			else if (decade == "Two_Thousands"){
-				return "2000s";
-			}
-			else if (decade == "Twenty_Tens"){
-				return "2010s";
-			}
-			else {
-				return "";
-			}
-		});
-
-
-
 
 		// not using this nodes array
 		var nodes = [];
@@ -254,26 +221,20 @@
 		for (var i = 0; i < numstop; i++) {
 		  nodes.push({
 		    "id": i,
-		    //"name": artistValues.Artist,
 		    "a": gaussian(),
-		    //"a": laxzyGaussian(nodes),
 		    "b": logNormal()
-		    //console.log(a);
 		  });
 		}
-
-		//console.log(nodes);
-
 
 		var simulation = d3.forceSimulation();
 
 		simulation
 			.force("x", d3.forceX(d => xScale(d[decade])).strength(.3))
 			.force("y", d3.forceY(yScale(.3)))
-			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
+			.force("collision", d3.forceCollide(d=> rScale((d[decade])*3)))
 			.force("center", d3.forceCenter(300,350))
-			.alpha(.08)
-			.alphaDecay(0.10);
+			.alpha(.35)
+			.alphaDecay(0.20);
 
 		simulation
 			.nodes(artistValues)
@@ -286,13 +247,11 @@
 			// purple is multiple/band/unknown
 			// pink is female
 			// blue male 
-
-			// console.log(d[Total]);
 			var circles = svg.selectAll("circle")
 				.data(artistValues).enter()
 				.filter(function (d) {return d[decade] > 0; })
 				.append("circle")
-				.attr("r", function (d) {return rScale(d[decade]*2);})
+				.attr("r", function (d) {return rScale(Number(d.Total));})
 				.attr("class", "artistCircle1")
 				.style("fill", function(d){
 
@@ -310,14 +269,11 @@
 				})
 
 				.style("opacity", 0.95)
-				// .attr("cx", function(d) { return d.x; })
-				// .attr("cy", function(d) { return d.y; })
 				.on("mouseover", function(d) {
 			 		tip1.transition()
 			         .duration(200)
 			         .style("opacity", 1.0)
-			         .text(d.Artist)
-			       // div.html(formatTime(d.date) + "<br/>" + d.close)
+			         .text(d.Artist + ", " + d.Total + " Hits")
 			         .style("left", (d3.event.pageX + 20) + "px")
 			         .style("top", (d3.event.pageY - 28) + "px");
 			       })
@@ -327,7 +283,6 @@
 			         .style("opacity", 0);
 			       })
 			    ;
-
 
 			//Move the circles to their locations.
 			updateDisplay();
@@ -401,39 +356,6 @@
 
 		var svg = d3.select("#graph2").attr("height", height).attr("width", width);
 
-		svg.append("text")
-		.attr("id", "text2")
-		.attr("x", 10)
-		.attr("y", 30)
-		.style("fill", "#BBBBBB")
-		.style("font-size", 26)
-		.text(function(d){
-			if(decade == "Sixties"){
-				return "1960s";
-			}
-			else if (decade == "Seventies"){
-				return "1970s";
-			}
-			else if (decade == "Eighties"){
-				return "1980s";
-			}
-			else if (decade == "Nineties"){
-				return "1990s";
-			}
-			else if (decade == "Two_Thousands"){
-				return "2000s";
-			}
-			else if (decade == "Twenty_Tens"){
-				return "2010s";
-			}
-			else {
-				return "";
-			}
-		});
-
-
-
-
 		// not using this nodes array
 		var nodes = [];
 		var numstop;
@@ -461,16 +383,10 @@
 		for (var i = 0; i < numstop; i++) {
 		  nodes.push({
 		    "id": i,
-		    //"name": artistValues.Artist,
 		    "a": gaussian(),
-		    //"a": laxzyGaussian(nodes),
 		    "b": logNormal()
-		    //console.log(a);
 		  });
 		}
-
-		//console.log(nodes);
-
 
 		var simulation = d3.forceSimulation();
 
@@ -479,14 +395,12 @@
 			.force("y", d3.forceY(yScale(.3)))
 			.force("collision", d3.forceCollide(d=> rScale(d[decade]*3)))
 			.force("center", d3.forceCenter(300,350))
-			.alpha(.08)
-			.alphaDecay(0.10);
+			.alpha(.35)
+			.alphaDecay(0.20);
 
 		simulation
 			.nodes(artistValues)
 			.on("tick", updateDisplay)
-			// .alpha(.08)
-			//console.log(nodes);
 
 			// Create circles for nodes.
 			// radius is num of hits in decade
@@ -500,33 +414,24 @@
 				.data(artistValues).enter()
 				.filter(function (d) {return d[decade] > 0; })
 				.append("circle")
-				.attr("r", function (d) {return rScale(d[decade]*2);})
+				.attr("r", function (d) {return rScale(Number(d.Total));})
 				.attr("class", "artistCircle2")
 				.style("fill", function(d){
-
 					if(d.Gender == "male"){
-						//console.log(d.Gender)
 						return "#399FF9";
-						//return fillScale("#399FF9");
 					} else if (d.Gender == "female"){
 						return "#FFC0CB";
-						//return fillScale("#F955F2");
 					} else {
 						return "#800080";
 					}
 
 				})
 				.style("opacity", 0.95)
-				// .attr("cx", function(d) { return d.x; })
-				// .attr("cy", function(d) { return d.y; });
-								.style("opacity", 0.95)
-				// .attr("cx", function(d) { return d.x; })
-				// .attr("cy", function(d) { return d.y; })
 				.on("mouseover", function(d) {
 			 		tip2.transition()
 			         .duration(200)
 			         .style("opacity", 1.0)
-			         .text(d.Artist)
+			         .text(d.Artist + ", " + d.Total + " Hits")
 			       // div.html(formatTime(d.date) + "<br/>" + d.close)
 			         .style("left", (d3.event.pageX + 20) + "px")
 			         .style("top", (d3.event.pageY - 28) + "px");
@@ -547,7 +452,6 @@
 			  .attr("cx", function(d) { return d.x; })
 			  .attr("cy", function(d) { return d.y; });
 			}
-
 
 		//click/drag functions from https://bl.ocks.org/mbostock/2675ff61ea5e063ede2b5d63c08020c7! and professor mimno lol
 		circles
@@ -572,10 +476,43 @@
 		  d.fx = null;
 		  d.fy = null;
 		}
-
 	}
 
+	// INITIALIZE CIRCLES
+	function start_state(){
+		start_button1 = document.getElementById("start1");
+		start_button1.click();
+		start_button1.style.backgroundColor = "#434343";
+		start_button2 = document.getElementById("start2");
+		start_button2.click();
+		start_button2.style.backgroundColor = "#434343";
+	}
+
+	function interim_state1(button){
+		bar1 = document.getElementById("buttonbar1")
+		buttons = bar1.querySelectorAll("button");
+		for (var i = 0; i < buttons.length; i++) {
+        buttons[i].style.backgroundColor = "#fbf7f5";
+    	}
+    	button.style.backgroundColor = "#434343";
+	}
+
+	function interim_state2(button){
+		bar1 = document.getElementById("buttonbar2")
+		buttons = bar1.querySelectorAll("button");
+		for (var i = 0; i < buttons.length; i++) {
+        buttons[i].style.backgroundColor = "#fbf7f5";
+    	}
+    	button.style.backgroundColor = "#434343";
+	}
+
+
+
 	d3.csv("artist_song_counts_range1.csv", mutateRow, callback);
+
+
+
+
 
 </script>
 
